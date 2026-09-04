@@ -1,34 +1,40 @@
 // ===== PÁGINA DE CONFIRMACIÓN DE PAGO =====
 window.addEventListener("DOMContentLoaded", () => {
-    // 🔹 RECUPERAR EL CARRITO QUE VINO DEL CHECKOUT
+    // 🔹 RECUPERAR EL CARRITO Y DATOS QUE VINO DEL CHECKOUT
     const guardado = localStorage.getItem("carrito_pago");
+    const pedidoGuardado = JSON.parse(localStorage.getItem("pedido_confirmado") || '{}');
+    
     let carrito = [];
     let totalCompra = 0;
-
     if (guardado) {
         const datos = JSON.parse(guardado);
         carrito = datos.carrito || [];
         totalCompra = datos.totalCompra || 0;
         console.log("✅ Carrito recuperado:", carrito);
-
         // Mostrar productos
         mostrarProductos(carrito);
-
         // Mostrar total formateado
         const totalElem = document.getElementById("mp-total");
         if (totalElem) {
             totalElem.textContent = `$ ${totalCompra.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`;
         }
-
         // ✅ LIMPIAR: borramos el carrito guardado
         localStorage.removeItem("carrito_pago");
     }
 
     // 🔹 RECIBIR DATOS DE MERCADO PAGO DESDE LA URL
     const params = new URLSearchParams(window.location.search);
-    const pagoId = params.get("payment_id") || params.get("preference_id") || "Pendiente";
+    const pagoId = params.get("payment_id") || params.get("preference_id") || pedidoGuardado.pedidoId || "Pendiente";
     const ordenElem = document.getElementById("mp-orden-id");
     if (ordenElem) ordenElem.textContent = pagoId;
+
+    // Guardamos para usar al enviar factura
+    window._datosPedido = {
+        sesion_id: pedidoGuardado.sesion_id || 'invitado',
+        pedidoId: pedidoGuardado.pedidoId || null,
+        carrito,
+        totalCompra
+    };
 
     // Mostrar fecha y hora actual
     const fecha = new Date().toLocaleString("es-AR", {
@@ -47,7 +53,6 @@ function mostrarProductos(carrito) {
     const contenedor = document.getElementById("lista_productos");
     if (!contenedor || !carrito.length) return;
     contenedor.innerHTML = "";
-
     carrito.forEach(item => {
         const nombre = item.nombre || "Producto";
         const cantidad = item.cantidad || 1;
@@ -62,74 +67,72 @@ function mostrarProductos(carrito) {
     });
 }
 
-// ===== MOSTRAR / OCULTAR CAMPO DE CORREO =====
+// ===== MOSTRAR / OCULTAR FORMULARIO DE FACTURACIÓN =====
 function mostrarCampoCorreo() {
     const seleccion = document.querySelector('input[name="enviar_factura"]:checked');
     if (!seleccion) return;
     const valor = seleccion.value;
-    const campoCorreo = document.getElementById("campo-correo");
-    if (!campoCorreo) return;
+    const formularioFactura = document.getElementById("campo-correo");
+    if (!formularioFactura) return;
 
     if (valor === "si") {
-        campoCorreo.classList.add("mostrar");
-        campoCorreo.style.display = "block";
+        formularioFactura.classList.add("mostrar");
+        formularioFactura.style.display = "block";
     } else {
-        campoCorreo.classList.remove("mostrar");
-        campoCorreo.style.display = "none";
-        // Limpiar el correo cuando oculta el campo
-        const correoInput = document.getElementById("correo_cliente");
-        if (correoInput) correoInput.value = "";
+        formularioFactura.classList.remove("mostrar");
+        formularioFactura.style.display = "none";
+        // Limpiar los campos cuando oculta
+        document.getElementById("correo_cliente").value = "";
+        document.getElementById("dni_factura").value = "";
+        document.getElementById("domicilio_factura").value = "";
     }
 }
 
-// ===== FUNCIÓN DEL BOTÓN "ACEPTAR" — VALIDA Y ENVÍA =====
+// ===== FUNCIÓN DEL BOTÓN "ACEPTAR" — ENVÍA LA FACTURA =====
 async function solicitarFactura() {
     const correoElem = document.getElementById("correo_cliente");
-    const pagoIdElem = document.getElementById("mp-orden-id");
-    if (!correoElem || !pagoIdElem) return;
+    const dniElem = document.getElementById("dni_factura");
+    const domicilioElem = document.getElementById("domicilio_factura");
+
+    if (!correoElem) return;
 
     const correo = correoElem.value.trim();
-    const pagoId = pagoIdElem.textContent;
+    const dni = dniElem ? dniElem.value.trim() : "";
+    const domicilio = domicilioElem ? domicilioElem.value.trim() : "";
+    const datos = window._datosPedido || {};
 
-    // ✅ VALIDAR QUE NO ESTÉ VACÍO
+    // ✅ VALIDAR CORREO
     if (!correo) {
         alert("⚠️ Por favor escribí tu correo electrónico.");
         correoElem.focus();
         return;
     }
-
-    // ✅ VALIDAR QUE TENGA FORMATO DE CORREO
     if (!correo.includes("@") || correo.length < 5) {
-        alert("⚠️ Por favor ingresá un correo electrónico válido.\nEjemplo: nombre@correo.com");
+        alert("⚠️ Ingresá un correo válido.\nEjemplo: nombre@correo.com");
         correoElem.focus();
         return;
     }
 
     try {
-        // ✅ LLAMADA CORRECTA: SIN /api duplicado
-        const respuesta = await peticion("/enviar-factura", "POST", {
-            correo: correo,
-            pago_id: pagoId
+        // ✅ LLAMAMOS A TU RUTA DE FACTURACIÓN
+        const respuesta = await peticion("/pedidos/actualizar-factura", "POST", {
+            sesion_id: datos.sesion_id,
+            correo_factura: correo,
+            dni_comprador: dni,
+            domicilio_comprador: domicilio
         });
 
-        // ✅ RESPUESTA EXITOSA
         if (respuesta.ok) {
             alert(`✅ ¡Listo! Tu factura fue enviada a:\n📧 ${correo}`);
-            // Limpiar todo para que quede prolijo
-            const form = document.getElementById("form-factura");
-            if (form) form.reset();
-            const campoCorreo = document.getElementById("campo-correo");
-            if (campoCorreo) {
-                campoCorreo.classList.remove("mostrar");
-                campoCorreo.style.display = "none";
-            }
-            const radioNo = document.querySelector('input[name="enviar_factura"][value="no"]');
-            if (radioNo) radioNo.checked = true;
+            // ✅ Limpiar todo
+            document.getElementById("form-factura").reset();
+            document.getElementById("campo-correo").style.display = "none";
+            document.querySelector('input[name="enviar_factura"][value="no"]').checked = true;
         } else {
-            alert(respuesta.mensaje || "⚠️ No se pudo enviar. Intentá más tarde.");
+            alert("⚠️ " + (respuesta.mensaje || "No se pudo enviar. Intentá más tarde."));
         }
     } catch (error) {
-        console.error("❌ Error al enviar factura:", error);
-        alert("⚠️ Ocurrió un problema de conexión. Intentá nuevamente.");
+        console.error("❌ Error:", error);
+        alert("⚠️ Problema de conexión. Intentá nuevamente.");
     }
 }

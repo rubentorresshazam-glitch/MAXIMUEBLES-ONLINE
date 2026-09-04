@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, default-scale=1.0">
+    <title>Remito - MaxiMuebles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="facturacion.css">
+</head>
+<body>
+
+    <div class="boton-imprimir">
+        <button onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Imprimir Remito
+        </button>
+    </div>
+
+    <div class="hoja-factura">
+
+        <!-- LOGO ARRIBA IZQUIERDA -->
+        <div class="logo-superior">
+            <img src="/assets/logos/logomaxibuebles.png" alt="Logo MaxiMuebles" class="logo-empresa">
+        </div>
+
+        <!-- FILA PRINCIPAL: EMPRESA + REMITO X + DATOS -->
+        <div class="fila-encabezado-remito">
+            <div class="col-empresa">
+                <p class="nombre-empresa">MAXIMUEBLES S.R.L</p>
+                <p>Roque Sáenz Peña y Castillón N° 0 - CP 8361</p>
+                <p>Luis Beltrán — Río Negro</p>
+                <p>CUIT: 30-71500272-4</p>
+            </div>
+
+            <div class="col-cuadro-remito">
+                <div class="cuadro-remito-x">
+                    <div class="texto-arriba">REMITO<br>REPARTO</div>
+                    <div class="letra-x">X</div>
+                    <div class="codigo">CÓDIGO 006</div>
+                </div>
+            </div>
+
+            <div class="col-derecha-datos">
+                <p>Punto de Venta: <span id="punto-venta"></span></p>
+                <p>Remito N°: <span id="nro-remito"></span></p>
+                <p>Fecha: <span id="fecha-emision"></span></p>
+            </div>
+        </div>
+
+        <!-- DATOS DEL COMPRADOR + RECIBE + HORARIO -->
+        <div class="cuadro-datos-cliente">
+            <div class="fila-datos">
+                <span>Nombre: <strong id="cliente-nombre"></strong></span>
+            </div>
+            <div class="fila-datos">
+                <span>Domicilio: <span id="cliente-direccion"></span></span>
+            </div>
+            <div class="fila-datos">
+                <span>Localidad: <span id="cliente-localidad"></span></span>
+            </div>
+             <div class="fila-datos">
+            <span>Teléfono: <span id="cliente-telefono"></span></span>
+            </div>
+            <div class="fila-datos">
+                <span>Recibe: <span id="cliente-recibe"></span></span>
+            </div>
+            <div class="fila-datos">
+                <span>Horario: <span id="cliente-horario"></span></span>
+            </div>
+        </div>
+
+        <!-- TABLA EXACTA: CANTIDAD - CÓDIGO ARTÍCULO - ENVASE - DESCRIPCIÓN -->
+        <table class="tabla-productos-remito">
+            <thead>
+                <tr>
+                    <th>CANTIDAD</th>
+                    <th>CÓDIGO ARTÍCULO</th>
+                    <th>ENVASE</th>
+                    <th>DESCRIPCIÓN</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-tabla">
+                <!-- SE LLENA SOLO CON LOS PRODUCTOS -->
+            </tbody>
+        </table>
+
+        <p class="leyenda-final">*** DOCUMENTO NO VÁLIDO COMO FACTURA ***</p>
+
+        <div class="recibido-conforme">
+            <p>Recibí conforme:</p>
+            <br>
+            <p>_______________________________</p>
+            <p>Firma y aclaración</p>
+        </div>
+
+    </div>
+
+    <script>
+        // FECHA AUTOMÁTICA DE HOY
+        const hoy = new Date();
+        const fechaCompleta = hoy.toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' });
+        document.getElementById('fecha-emision').textContent = fechaCompleta;
+
+        // RECIBE TODOS LOS DATOS DEL FORMULARIO DE COMPRA
+        window.addEventListener('DOMContentLoaded', () => {
+            const p = new URLSearchParams(window.location.search);
+
+            // NÚMERO DE REMITO
+            if (p.get('nroRemito')) {
+                const [punto, nro] = p.get('nroRemito').split('-');
+                document.getElementById('punto-venta').textContent = punto || '00010';
+                document.getElementById('nro-remito').textContent = nro || '00000001';
+            }
+
+            // DATOS DEL COMPRADOR
+            document.getElementById('cliente-nombre').textContent = p.get('nombre') || 'Consumidor Final';
+            document.getElementById('cliente-direccion').textContent = p.get('direccion') || '';
+            document.getElementById('cliente-localidad').textContent = p.get('localidad') || 'Valle Medio, Río Negro';
+            document.getElementById('cliente-telefono').textContent = p.get('telefono') || '';
+
+            // DATOS DE ENTREGA
+            document.getElementById('cliente-recibe').textContent = p.get('recibe') || 'El mismo';
+            document.getElementById('cliente-horario').textContent = p.get('horario') || 'A convenir';
+
+            // PRODUCTOS
+            const txt = p.get('productos');
+            if (txt) {
+                const prods = JSON.parse(decodeURIComponent(txt));
+                const cuerpo = document.getElementById('cuerpo-tabla');
+                cuerpo.innerHTML = '';
+                prods.forEach(x => {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td>${x.cantidad}</td>
+                        <td>${x.codigo || ''}</td>
+                        <td>Unidad</td>
+                        <td>${x.nombre}</td>
+                    `;
+                    cuerpo.appendChild(fila);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

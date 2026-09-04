@@ -1,21 +1,40 @@
 const db = require('../config/database');
-
 class Pedido {
-  // ✅ Crear nuevo pedido — CON sesion_id para identificar al cliente
+  // ✅ Crear nuevo pedido — CON datos de facturación
   static async crear(datos) {
-    const { nombre, correo, telefono, direccion, productos, total, notas = '', sesion_id = 'invitado' } = datos;
+    const { 
+      nombre, correo, telefono, direccion, productos, total, notas = '', sesion_id = 'invitado',
+      quiero_factura, dni_comprador, domicilio_comprador // ✅ CAMPOS NUEVOS
+    } = datos;
     const res = await db.query(
-      `INSERT INTO pedidos (nombre, correo, telefono, direccion, productos, total, notas, estado, sesion_id, fecha) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, 'pendiente', $8, NOW()) RETURNING id`,
-      [nombre, correo, telefono || null, direccion || '', JSON.stringify(productos), total, notas, sesion_id]
+      `INSERT INTO pedidos 
+       (nombre, correo, telefono, direccion, productos, total, notas, estado, sesion_id, fecha,
+        quiero_factura, dni_comprador, domicilio_comprador) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 'pendiente', $8, NOW(), $9, $10, $11) 
+       RETURNING id`,
+      [
+        nombre, correo, telefono || null, direccion || '', JSON.stringify(productos), total, notas, sesion_id,
+        quiero_factura || false, dni_comprador || null, domicilio_comprador || null
+      ]
     );
     return res.rows[0].id;
+  }
+
+  // ✅ Actualizar número de factura cuando se genera
+  static async actualizarFactura(pedido_id, numeroFactura) {
+    await db.query(
+      `UPDATE pedidos 
+       SET factura_generada = true, factura_numero = $1, fecha_factura = NOW() 
+       WHERE id = $2`,
+      [numeroFactura, pedido_id]
+    );
   }
 
   // ✅ Listar TODOS los pedidos (Panel administrativo)
   static async listarTodos() {
     const res = await db.query(
-      `SELECT id, nombre, correo, telefono, direccion, total, estado, sesion_id, fecha 
+      `SELECT id, nombre, correo, telefono, direccion, total, estado, sesion_id, fecha,
+              quiero_factura, factura_generada, factura_numero 
        FROM pedidos ORDER BY id DESC`
     );
     return res.rows;

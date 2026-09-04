@@ -1,9 +1,14 @@
 const db = require('../config/database');
+// ✅ Importamos la función de facturación y correo
+const { enviarCorreoConFactura } = require('../config/afip-facturacion');
 
 // ✅ Crear pedido como invitado — SIN cuenta de usuario
 exports.crearPedido = async (req, res) => {
   try {
-    const { nombre, correo, telefono, direccion, productos, total, notas, sesion_id } = req.body;
+    const { 
+      nombre, correo, telefono, direccion, productos, total, notas, sesion_id,
+      quiero_factura, dni_comprador, domicilio_comprador // ✅ CAMPOS NUEVOS
+    } = req.body;
 
     // ✅ Validar que no falten datos obligatorios
     if (!nombre || !correo || !telefono || !direccion || !productos || productos.length === 0) {
@@ -16,20 +21,55 @@ exports.crearPedido = async (req, res) => {
     // ✅ Convertir productos a texto JSON para guardar
     const productosJson = JSON.stringify(productos);
 
-    // ✅ Guardar el pedido en Neon PostgreSQL — con sesion_id para identificar al cliente
+    // ✅ Guardar el pedido en Neon PostgreSQL — con datos de facturación
     const resultado = await db.query(
       `INSERT INTO pedidos 
-       (nombre, correo, telefono, direccion, productos, total, notas, estado, sesion_id, fecha) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, 'pendiente', $8, NOW())
+       (nombre, correo, telefono, direccion, productos, total, notas, estado, sesion_id, fecha,
+        quiero_factura, dni_comprador, domicilio_comprador) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 'pendiente', $8, NOW(), $9, $10, $11)
        RETURNING id`,
-      [nombre, correo, telefono, direccion, productosJson, total, notas || '', sesion_id || 'invitado']
+      [
+        nombre, correo, telefono, direccion, productosJson, total, notas || '', sesion_id || 'invitado',
+        quiero_factura || false, dni_comprador || null, domicilio_comprador || null
+      ]
     );
+
+    const pedidoId = resultado.rows[0].id;
+
+    // ✅ SI EL CLIENTE PIDIÓ FACTURA → la generamos y enviamos automáticamente
+    if (quiero_factura === true || quiero_factura === 'true') {
+      // Esperamos unos segundos para que se confirme el pago
+      setTimeout(async () => {
+        try {
+          const numeroFactura = await enviarCorreoConFactura({
+            pedido_id: pedidoId,
+            nombre,
+            correo,
+            dni: dni_comprador,
+            domicilio: domicilio_comprador,
+            productos,
+            total
+          });
+          console.log(`✅ Factura N° ${numeroFactura} generada y enviada a ${correo}`);
+          
+          // ✅ Actualizamos el pedido con el número de factura
+          await db.query(
+            `UPDATE pedidos 
+             SET factura_generada = true, factura_numero = $1, fecha_factura = NOW() 
+             WHERE id = $2`,
+            [numeroFactura, pedidoId]
+          );
+        } catch (err) {
+          console.log('⚠️ No se pudo generar/enviar la factura:', err.message);
+        }
+      }, 8000); // Espera 8 segundos después de crear el pedido
+    }
 
     res.status(201).json({
       ok: true,
       exito: true,
       mensaje: `¡Gracias ${nombre}! Tu pedido se registró correctamente.`,
-      pedidoId: resultado.rows[0].id
+      pedidoId: pedidoId
     });
 
   } catch (error) {
@@ -45,7 +85,8 @@ exports.crearPedido = async (req, res) => {
 exports.listarPedidos = async (req, res) => {
   try {
     const pedidos = await db.query(
-      `SELECT id, nombre, correo, telefono, direccion, total, estado, fecha, sesion_id
+      `SELECT id, nombre, correo, telefono, direccion, total, estado, fecha, sesion_id,
+              quiero_factura, factura_generada, factura_numero
        FROM pedidos ORDER BY fecha DESC`
     );
     res.json({ ok: true, datos: pedidos.rows });
@@ -62,18 +103,15 @@ exports.verPedidoCliente = async (req, res) => {
     if (!sesion_id) {
       return res.status(400).json({ ok: false, mensaje: 'Falta identificación de sesión' });
     }
-
     const pedidos = await db.query(
       `SELECT *, productos::text FROM pedidos WHERE sesion_id = $1 ORDER BY fecha DESC`,
       [sesion_id]
     );
-
     // ✅ Parsear JSON de productos
     const datos = pedidos.rows.map(pedido => ({
       ...pedido,
       productos: JSON.parse(pedido.productos)
     }));
-
     res.json({ ok: true, datos });
   } catch (error) {
     console.error('❌ Error al cargar pedidos del cliente:', error.message);
@@ -91,7 +129,6 @@ exports.verDetalle = async (req, res) => {
     if (!pedido.rows.length) {
       return res.status(404).json({ ok: false, mensaje: 'Pedido no encontrado' });
     }
-
     // ✅ Parsear productos de JSON a objeto
     const datos = {
       pedido: {

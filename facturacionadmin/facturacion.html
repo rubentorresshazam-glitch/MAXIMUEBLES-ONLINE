@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Facturación | MaxiMuebles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="facturacion.css">
+</head>
+<body>
+
+    <!-- Barra superior -->
+    <section class="topbar">
+        <div class="topbar-container">
+            <div class="topbar-item">
+                <i class="fa-solid fa-building"></i>
+                <span>Panel de Administración</span>
+            </div>
+            <div class="topbar-item">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Gestión de Facturación</span>
+            </div>
+            <div class="topbar-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Acceso exclusivo</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Encabezado -->
+    <header class="header header-simple">
+        <div class="header-top-container">
+            <div class="header-left">
+                <a href="../index.html" class="logo-link">
+                    <div class="logo-empresa">
+                        <span class="trebol-logo material-symbols-outlined">spa</span>
+                        <span class="texto-logo">MaxiMuebles</span>
+                    </div>
+                </a>
+            </div>
+            <div class="header-right">
+                <a href="../index.html" class="btn-secundario">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Volver al Inicio</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="facturacion-page">
+        <div class="facturacion-container">
+
+            <!-- Título principal -->
+            <div class="cabecera-pagina">
+                <h1><i class="fa-solid fa-file-invoice"></i> Gestión de Facturas y Remitos</h1>
+                <p class="subtitulo">Administrá todas las compras registradas, emití facturas y remitos</p>
+            </div>
+
+            <!-- Tarjeta de filtros -->
+            <div class="panel-filtros tarjeta">
+                <div class="tarjeta-encabezado">
+                    <h3><i class="fa-solid fa-magnifying-glass"></i> Buscar y filtrar</h3>
+                </div>
+                <div class="tarjeta-cuerpo filtros-contenido">
+                    <div class="grupo-filtro">
+                        <label for="buscar">Buscar</label>
+                        <input type="text" id="buscar" placeholder="Nombre, N° operación o factura..." title="Buscar por nombre, número de operación o factura">
+                    </div>
+                    <div class="grupo-filtro">
+                        <label for="fecha-filtro">Fecha</label>
+                        <input type="date" id="fecha-filtro" title="Filtrar por fecha de la compra">
+                    </div>
+                    <div class="grupo-botones">
+                        <button onclick="cargarListaCompras()" class="btn-principal btn-filtrar">
+                            <i class="fa-solid fa-filter"></i> Aplicar
+                        </button>
+                        <button onclick="limpiarFiltros()" class="btn-secundario btn-limpiar">
+                            <i class="fa-solid fa-eraser"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta: Lista de compras -->
+            <div class="panel-lista tarjeta">
+                <div class="tarjeta-encabezado">
+                    <h3><i class="fa-solid fa-table-list"></i> Compras Registradas</h3>
+                    <span class="contador-registros" id="contador-registros">0 registros</span>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <div id="lista-compras" class="lista-compras">
+                        <div class="estado-vacio">
+                            <i class="fa-solid fa-inbox icono-vacio"></i>
+                            <p>No hay compras registradas todavía.</p>
+                            <span class="texto-ayuda">Las compras aparecerán aquí cuando se realicen desde la tienda</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta: Detalle de factura + ACCIONES -->
+            <div id="panel-detalle" class="panel-detalle tarjeta oculto">
+                <div class="tarjeta-encabezado">
+                    <h3><i class="fa-solid fa-file-lines"></i> Detalle de Operación</h3>
+                    <button onclick="cerrarDetalle()" class="btn-cerrar-panel" title="Cerrar detalle">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <div class="contenido-factura" id="contenido-detalle"></div>
+                </div>
+                <div class="tarjeta-pie acciones-factura">
+                    <!-- ✅ BOTÓN FACTURA -->
+                    <button onclick="abrirFacturaParaImprimir()" class="btn-accion btn-imprimir">
+                        <i class="fa-solid fa-file-invoice"></i> Abrir e Imprimir Factura
+                    </button>
+                    <!-- ✅ BOTÓN REMITO NUEVO -->
+                    <button onclick="abrirRemitoParaImprimir()" class="btn-accion btn-imprimir">
+                        <i class="fa-solid fa-file-contract"></i> Abrir e Imprimir Remito
+                    </button>
+                    <button onclick="enviarFacturaCorreo()" class="btn-accion btn-correo">
+                        <i class="fa-solid fa-envelope"></i> Enviar por correo
+                    </button>
+                    <button onclick="transmitirARCA()" class="btn-accion btn-afip">
+                        <i class="fa-solid fa-database"></i> Transmitir a ARCA
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 MAXIMUEBLES S.R.L | CUIT: 30-71500272-4 | Punto de Venta N° 00010</p>
+        </div>
+    </footer>
+
+    <!-- ✅ Ruta corregida al archivo JS -->
+    <script src="facturacion.js"></script>
+
+    <!-- ✅ FUNCIONES PARA ABRIR FACTURA Y REMITO -->
+    <script>
+        let compraSeleccionada = null;
+
+        // Guarda la compra seleccionada desde facturacion.js
+        function seleccionarCompra(compra) {
+            compraSeleccionada = compra;
+        }
+
+        // Abrir Factura
+        function abrirFacturaParaImprimir() {
+            if (!compraSeleccionada) {
+                alert('Primero seleccioná una compra');
+                return;
+            }
+            const datos = {
+                nroFactura: `${compraSeleccionada.puntoVenta || '00010'}-${compraSeleccionada.numero || '00000001'}`,
+                nombre: compraSeleccionada.nombre,
+                dni: compraSeleccionada.dni,
+                direccion: compraSeleccionada.direccion,
+                localidad: compraSeleccionada.localidad || 'Valle Medio, Río Negro',
+                condicionVenta: compraSeleccionada.condicionVenta || 'Contado',
+                total: compraSeleccionada.total,
+                cae: compraSeleccionada.cae || '',
+                vtoCAE: compraSeleccionada.vtoCAE || '',
+                productos: encodeURIComponent(JSON.stringify(compraSeleccionada.productos || []))
+            };
+            const params = new URLSearchParams(datos);
+            window.open(`factura-imprimible.html?${params.toString()}`, '_blank');
+        }
+
+        // ✅ Abrir Remito
+        function abrirRemitoParaImprimir() {
+            if (!compraSeleccionada) {
+                alert('Primero seleccioná una compra');
+                return;
+            }
+            const datos = {
+                nroRemito: `${compraSeleccionada.puntoVenta || '00010'}-${compraSeleccionada.numero || '00000001'}`,
+                nombre: compraSeleccionada.nombre,
+                direccion: compraSeleccionada.direccion,
+                localidad: compraSeleccionada.localidad || 'Valle Medio, Río Negro',
+                telefono: compraSeleccionada.telefono || '',
+                condicionVenta: compraSeleccionada.condicionVenta || 'Contado',
+                productos: encodeURIComponent(JSON.stringify(compraSeleccionada.productos || []))
+            };
+            const params = new URLSearchParams(datos);
+            window.open(`remito-imprimible.html?${params.toString()}`, '_blank');
+        }
+    </script>
+</body>
+</html>
