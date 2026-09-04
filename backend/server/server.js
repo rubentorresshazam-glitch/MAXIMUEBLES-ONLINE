@@ -8,7 +8,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
-// ✅ CONEXIÓN A BASE DE DATOS → MISMA carpeta: backend/server/config/
+// ✅ CONEXIÓN A BASE DE DATOS
 const db = require('./config/database');
 
 // ✅ MERCADO PAGO
@@ -25,6 +25,7 @@ const NOMBRE_EMPRESA = process.env.NOMBRE_EMPRESA || "MAXIMUEBLES S.R.L.";
 // ==================================================
 const app = express();
 const PUERTO = process.env.PORT || 10000;
+const WEB_URL = process.env.WEB_URL || "https://maximuebles-online.onrender.com";
 
 app.use(cors());
 app.use(express.json());
@@ -32,7 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../')));
 
 // ==================================================
-// ✅ RUTAS → MISMA carpeta: backend/server/routes/
+// ✅ RUTAS
 // ==================================================
 const productosRutas = require('./routes/productos.routes');
 app.use('/api/productos', productosRutas);
@@ -47,7 +48,7 @@ const contactoRutas = require('./routes/contacto.routes');
 app.use('/api/contacto', contactoRutas);
 
 // ==================================================
-// 💳 MERCADO PAGO
+// 💳 MERCADO PAGO — DIRECCIONES CORREGIDAS
 // ==================================================
 app.post('/api/crear-preferencia-pago', async (req, res) => {
   try {
@@ -69,13 +70,14 @@ app.post('/api/crear-preferencia-pago', async (req, res) => {
           name: datosComprador?.nombre || 'Invitado',
           email: datosComprador?.correo || 'cliente@maximuebles.com'
         },
+        // ✅ DIRECCIONES CORREGIDAS → APUNTAN A TU ARCHIVO REAL
         back_urls: {
-          success: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/pago-exitoso.html`,
-          failure: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/pago-fallido.html`,
-          pending: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/pago-pendiente.html`
+          success: `${WEB_URL}/mi-cuenta/confirmacion.html`,
+          failure: `${WEB_URL}/mi-cuenta/carrito.html`,
+          pending: `${WEB_URL}/mi-cuenta/confirmacion.html`
         },
         auto_return: 'approved',
-        notification_url: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/api/notificacion-pago?sesion_id=${sesion_id}`,
+        notification_url: `${WEB_URL}/api/notificacion-pago?sesion_id=${sesion_id}`,
         external_reference: sesion_id
       }
     });
@@ -116,7 +118,7 @@ app.listen(PUERTO, () => {
 // ✅ CACHÉ Y URLS LIMPIAS
 // ==================================================
 app.use((req, res, siguiente) => {
-  const rutasSinHtml = ['/index','/nosotros','/contacto','/ayuda','/comedor','/dormitorios','/living','/oficina','/ofertas'];
+  const rutasSinHtml = ['/index','/nosotros','/contacto','/ayuda','/comedor','/dormitorio','/living','/oficina','/ofertas'];
   if (rutasSinHtml.includes(req.path)) {
     return res.sendFile(path.join(__dirname, `../../${req.path.slice(1)}.html`));
   }
