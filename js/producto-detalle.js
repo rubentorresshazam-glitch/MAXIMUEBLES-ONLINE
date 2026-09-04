@@ -131,7 +131,7 @@ document.getElementById('btn-comprar-ahora').addEventListener('click', () => {
 
     // ✅ Reemplazar el carrito actual y salir al checkout
     localStorage.setItem('carrito', JSON.stringify(compraDirecta));
-    window.location.href = '/checkout.html';
+    window.location.href = '/mi-cuenta/checkout.html';
 });
 
 // ✅ Botón favorito
