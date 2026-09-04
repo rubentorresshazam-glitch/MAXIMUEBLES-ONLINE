@@ -1,0 +1,15 @@
+# 🔒 Contraseñas y variables privadas
+.env
+.env.local
+
+# 📂 Certificados oficiales de AFIP — NUNCA subir
+backend/server/certificados/
+*.cer
+*.key
+*.pem
+
+# 🗑️ Paquetes y archivos temporales
+node_modules/
+.vscode/
+*.log
+solicitud-certificado.csr

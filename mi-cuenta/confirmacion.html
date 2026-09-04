@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✅ SEO PRINCIPAL -->
+    <title>¡Compra Confirmada! | MaxiMuebles</title>
+    <meta name="description" content="¡Pago realizado con éxito! Gracias por tu compra. Envíos y armado gratuito en el Valle Medio desde Chimpay hasta Pomona.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://tudominio.com/mi-cuenta/confirmacion.html">
+
+    <!-- ✅ GEOLOCALIZACIÓN -->
+    <meta name="geo.region" content="AR-R">
+    <meta name="geo.placename" content="Valle Medio, Río Negro">
+
+    <!-- ✅ COLOR EN NAVEGADOR MÓVIL -->
+    <meta name="theme-color" content="#006633">
+
+    <!-- Fuentes e Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/confirmacion.css?v=2">
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR → Actualizada al Valle Medio -->
+    <section class="topbar">
+        <div class="topbar-container">
+            <div class="topbar-item"><i class="fa-solid fa-truck-fast"></i> Envíos a todo el Valle Medio</div>
+            <div class="topbar-item"><i class="fa-solid fa-shield-halved"></i> Compra 100% segura</div>
+            <div class="topbar-item"><i class="fa-solid fa-check-circle"></i> Pago verificado</div>
+        </div>
+    </section>
+
+    <!-- ENCABEZADO CON LOGO -->
+    <header class="header header-simple">
+        <div class="header-top-container">
+            <div class="header-left">
+                <a href="/index.html" class="logo-link" title="MaxiMuebles" aria-label="Ir al inicio">
+                    <img src="/assets/logos/logomaxibuebles.png" alt="MaxiMuebles - Compra Confirmada" class="logo-imagen">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="confirmacion-container">
+
+        <!-- ✅ MENSAJE DE ÉXITO -->
+        <div class="tarjeta-exito">
+            <div class="icono-exito">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h1>¡Pago Realizado con Éxito!</h1>
+            <p class="subtitulo">Gracias por tu compra. Tu factura ya está generada como Consumidor Final.</p>
+        </div>
+
+        <!-- 📋 DATOS DE LA COMPRA -->
+        <div class="tarjeta-datos">
+            <h2><i class="fa-solid fa-file-invoice"></i> Detalles de tu compra</h2>
+
+            <div class="dato-fila">
+                <span class="etiqueta">Número de Operación:</span>
+                <span class="valor" id="mp-orden-id">—</span>
+            </div>
+            <div class="dato-fila">
+                <span class="etiqueta">Fecha y Hora:</span>
+                <span class="valor" id="mp-fecha">—</span>
+            </div>
+            <div class="dato-fila">
+                <span class="etiqueta">Método de Pago:</span>
+                <span class="valor">Mercado Pago</span>
+            </div>
+            <div class="dato-fila">
+                <span class="etiqueta">Productos:</span>
+                <div class="valor productos-lista" id="lista_productos">—</div>
+            </div>
+            <div class="dato-fila total-fila">
+                <span class="etiqueta">Total Pagado:</span>
+                <span class="valor total" id="mp-total">$ 0,00</span>
+            </div>
+        </div>
+
+        <!-- 🧾 ENVIAR FACTURA POR CORREO -->
+        <div class="tarjeta-factura">
+            <h2><i class="fa-solid fa-file-invoice-dollar"></i> ¿Querés que te enviemos tu Factura?</h2>
+            <p class="texto-ayuda">Ingresá tu correo y te la enviamos ahora mismo con tu factura oficial (Consumidor Final).</p>
+
+            <form id="form-factura">
+                <div class="form-grupo">
+                    <label>¿Querés recibir tu factura por correo electrónico?</label>
+                    <div class="radio-opciones">
+                        <label class="radio-label">
+                            <input type="radio" name="enviar_factura" value="no" checked onchange="mostrarCampoCorreo()">
+                            <span>No, gracias</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="enviar_factura" value="si" onchange="mostrarCampoCorreo()">
+                            <span>Sí, enviarla a mi correo</span>
+                        </label>
+                    </div>
+                </div>
+                <div id="campo-correo" class="campos-ocultos">
+                    <div class="form-grupo">
+                        <label for="correo_cliente">Tu Correo Electrónico *</label>
+                        <input type="email" id="correo_cliente" placeholder="ejemplo@correo.com" required>
+                    </div>
+
+                    <button type="button" class="btn btn-enviar-factura" onclick="solicitarFactura()">
+                        <i class="fa-solid fa-check"></i> Enviar Factura
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 🏠 VOLVER A INICIO -->
+        <div class="acciones-finales">
+            <a href="/index.html" class="btn btn-volver-inicio">
+                <i class="fa-solid fa-home"></i> Volver al Inicio
+            </a>
+        </div>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 MAXIMUEBLES S.R.L | CUIT: 30-71500272-4 | Punto de Venta N° 00010 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- ✅ Script versión actualizada -->
+    <script src="/js/confirmacion.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+/* ===== ESTILOS EXCLUSIVOS DE PÁGINA AYUDA ===== */
+/* COLORES EMPRESA: VERDE · NEGRO · BLANCO */
+:root {
+  --verde-empresa: #00703C; /* Verde principal */
+  --verde-claro: #2E8B57;
+  --negro-empresa: #121212;
+  --blanco-empresa: #FFFFFF;
+  --gris-claro: #F5F5F5;
+  --borde-suave: #E0E0E0;
+}
+
+/* Contenedor central */
+.ayuda-seccion {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 50px 25px;
+}
+
+/* Título principal — MUCHA VISIBILIDAD */
+.ayuda-titulo {
+  text-align: center;
+  color: var(--verde-empresa);
+  margin-bottom: 25px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.ayuda-titulo i {
+  margin-right: 12px;
+}
+
+/* Párrafo introductorio */
+.ayuda-intro {
+  text-align: center;
+  color: var(--negro-empresa);
+  margin-bottom: 50px;
+  font-size: 1.15rem;
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* Subtítulos */
+.ayuda-seccion h2 {
+  color: var(--verde-empresa);
+  margin: 50px 0 28px;
+  font-size: 1.6rem;
+  border-bottom: 3px solid var(--verde-empresa);
+  padding-bottom: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Bloque de pregunta — MÁS VISIBLE */
+.bloque-pregunta {
+  background: var(--blanco-empresa);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 112, 60, 0.12);
+  margin-bottom: 18px;
+  overflow: hidden;
+  border-left: 5px solid var(--verde-empresa);
+  transition: all 0.3s ease;
+}
+
+.bloque-pregunta:hover {
+  box-shadow: 0 6px 18px rgba(0, 112, 60, 0.18);
+  transform: translateX(4px);
+}
+
+/* Botón de pregunta — DESTACADO */
+.pregunta {
+  padding: 20px 28px;
+  background: linear-gradient(to right, var(--verde-empresa), var(--verde-claro));
+  color: var(--blanco-empresa);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+}
+
+.pregunta:hover {
+  background: var(--negro-empresa);
+  color: var(--blanco-empresa);
+}
+
+/* Flecha que rota */
+.icono-flecha {
+  transition: transform 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.pregunta.abierta .icono-flecha {
+  transform: rotate(180deg);
+}
+
+/* Respuesta desplegable */
+.respuesta {
+  padding: 0 28px;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  color: var(--negro-empresa);
+  line-height: 1.8;
+  font-size: 1rem;
+  background: var(--gris-claro);
+}
+
+.respuesta.mostrar {
+  padding: 25px 28px;
+  max-height: 1000px;
+  border-top: 1px solid var(--borde-suave);
+}
+
+.respuesta strong {
+  color: var(--verde-empresa);
+  font-weight: 700;
+}
+
+/* Guía rápida - pasos — MUCHA PRESENCIA */
+.pasos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.paso {
+  text-align: center;
+  padding: 35px 20px;
+  background: var(--blanco-empresa);
+  border-radius: 14px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border-top: 5px solid var(--verde-empresa);
+  transition: all 0.35s ease;
+}
+
+.paso:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 112, 60, 0.2);
+}
+
+.paso i {
+  font-size: 2.5rem;
+  color: var(--verde-empresa);
+  margin-bottom: 18px;
+}
+
+.paso h4 {
+  margin-bottom: 10px;
+  color: var(--negro-empresa);
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.paso p {
+  color: #444;
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+/* Sección de contacto final — IMPACTANTE */
+.seccion-contacto {
+  margin-top: 70px;
+  background: linear-gradient(135deg, var(--verde-empresa), var(--negro-empresa));
+  padding: 45px 30px;
+  border-radius: 16px;
+  text-align: center;
+  color: var(--blanco-empresa);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.seccion-contacto h3 {
+  color: var(--blanco-empresa);
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.seccion-contacto p {
+  color: #E8E8E8;
+  margin-bottom: 25px;
+  font-size: 1.05rem;
+}
+
+.boton-contacto {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--blanco-empresa);
+  color: var(--verde-empresa) !important;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.35s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.boton-contacto:hover {
+  background: var(--negro-empresa);
+  color: var(--blanco-empresa) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Adaptación a celular */
+@media (max-width: 768px) {
+  .ayuda-titulo { font-size: 1.8rem; }
+  .pasos { grid-template-columns: 1fr 1fr; }
+  .pregunta { font-size: 1rem; padding: 18px 20px; }
+}
+
+@media (max-width: 480px) {
+  .pasos { grid-template-columns: 1fr; }
+  .ayuda-seccion { padding: 30px 15px; }
+}
+
+.guia-intro {
+      text-align: center;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .guia-rapida-intro {
+      text-align: center;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .seccion-guia-rapida-intro {
+      text-align: center;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .guia-rapida-intro-text {
+      text-align: center;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .guia-intro-parrafo {
+      text-align: center;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .guia-rapida-intro-intro {
+      text-align: center;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .guia-rapida-intro {
+      text-align: center;
+      color: #666;
+      margin-bottom: 10px;
+    }

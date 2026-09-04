@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ✅ SEO PRINCIPAL → Se actualiza dinámicamente con el nombre del producto -->
+    <title>Detalle Producto | MaxiMuebles · Valle Medio, Río Negro</title>
+    <meta name="description" content="Conocé todos los detalles, características y precio del producto. Envíos a todo el Valle Medio desde Chimpay hasta Pomona. Compra segura en MaxiMuebles.">
+    <meta name="keywords" content="muebles Río Negro, comprar muebles Valle Medio, precio muebles, características muebles, envíos muebles Chimpay Pomona">
+    <meta name="author" content="MAXIMUEBLES S.R.L.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://maximuebles-online.onrender.com/producto-detalle.html">
+    <!-- ✅ SEO PARA REDES SOCIALES -->
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="Detalle del Producto | MaxiMuebles">
+    <meta property="og:description" content="Producto disponible con envío a todo el Valle Medio. Calidad garantizada y armado gratuito.">
+    <meta property="og:url" content="https://maximuebles-online.onrender.com/producto-detalle.html">
+    <meta property="og:site_name" content="MaxiMuebles">
+    <meta property="og:locale" content="es_AR">
+    <!-- ✅ GEOLOCALIZACIÓN -->
+    <meta name="geo.region" content="AR-R">
+    <meta name="geo.placename" content="Valle Medio, Río Negro">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/producto-detalle.css">
+</head>
+<body>
+    <!-- BARRA SUPERIOR -->
+    <section class="topbar">
+        <div class="topbar-container">
+            <div class="topbar-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span>Envíos a todo el Valle Medio</span>
+            </div>
+            <div class="topbar-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Compra 100% segura</span>
+            </div>
+            <div class="topbar-item">
+                <i class="fa-solid fa-handshake"></i>
+                <span>Armado gratuito</span>
+            </div>
+        </div>
+    </section>
+    <!-- ENCABEZADO -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-top-container">
+                <!-- Logo -->
+                <div class="header-left">
+                    <a href="/index.html" class="logo-link">
+                        <img src="/assets/logos/logomaxibuebles.png" alt="Maximuebles - Tienda de Muebles Valle Medio" class="logo-imagen">
+                    </a>
+                </div>
+                <!-- ✅ Buscador CON ID y evento -->
+                <div class="header-center">
+                    <div class="search-bar">
+                        <input type="text" id="buscador-productos" class="search-input" placeholder="¿Qué estás buscando?" onkeyup="aplicarFiltros()">
+                        <button type="button" class="search-btn" aria-label="Buscar" title="Buscar" onclick="aplicarFiltros()">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Iconos -->
+                <div class="header-right">
+                    <button class="header-btn">
+                        <i class="fa-solid fa-heart"></i>
+                        <span>Favoritos</span>
+                    </button>
+                    <!-- ✅ Carrito → Ruta corregida -->
+                    <a href="/mi-cuenta/carrito.html" class="header-btn cart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="cart-count" id="headerCartCount">0</div>
+                    </a>
+                    <!-- Botón menú celular -->
+                    <div class="menu-celular-boton-solo">
+                        <button type="button" class="boton-menu-animado" id="botonMenuAnimado" aria-label="Abrir menú">
+                            <span class="icono-menu"><i class="fa-solid fa-bars"></i></span>
+                            <span class="texto-menu">Menú</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MENÚ DE NAVEGACIÓN -->
+        <nav class="navbar">
+            <div class="navbar-container menu-pc">
+                <a href="/index.html" class="nav-item">Inicio</a>
+                <a href="/nosotros.html" class="nav-item">Nosotros</a>
+                <a href="/pages/living.html" class="nav-item">Living</a>
+                <a href="/pages/dormitorios.html" class="nav-item">Dormitorios</a>
+                <a href="/pages/comedor.html" class="nav-item">Comedor</a>
+                <a href="/pages/oficina.html" class="nav-item">Oficina</a>
+                <a href="/pages/ofertas.html" class="nav-item">Ofertas</a>
+                <a href="/contacto.html" class="nav-item">Contacto</a>
+                <!-- Redes sociales -->
+                <div class="redes-contenedor">
+                    <a href="https://www.facebook.com/maxi.muebles.498598" target="_blank" rel="noopener noreferrer" class="btn-red btn-facebook" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/maximuebleschch/" target="_blank" rel="noopener noreferrer" class="btn-red btn-instagram" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <!-- WhatsApp con submenú -->
+                    <div class="wp-boton-final">
+                        <div class="lista-wp">
+                            <a href="https://wa.me/5492946516236" target="_blank" rel="noopener noreferrer">MaxiMuebles</a>
+                            <a href="https://wa.me/5492984564761" target="_blank" rel="noopener noreferrer">Juan</a>
+                            <a href="https://wa.me/5492984311890" target="_blank" rel="noopener noreferrer">Gonzalo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <div class="producto-contenedor">
+            <!-- GALERÍA DE IMÁGENES -->
+            <div class="producto-galeria">
+                <div class="imagen-principal">
+                    <img id="img-principal" src="" alt="" loading="lazy">
+                </div>
+                <div class="miniaturas">
+                    <button class="miniatura activa" type="button" data-img="" title="Ver imagen principal" aria-label="Ver imagen principal">
+                        <img src="" alt="" loading="lazy">
+                    </button>
+                    <button class="miniatura" type="button" data-img="" title="Ver imagen 2" aria-label="Ver imagen 2">
+                        <img src="" alt="" loading="lazy">
+                    </button>
+                    <button class="miniatura" type="button" data-img="" title="Ver imagen 3" aria-label="Ver imagen 3">
+                        <img src="" alt="" loading="lazy">
+                    </button>
+                </div>
+            </div>
+            <!-- DATOS DEL PRODUCTO -->
+            <div class="producto-datos">
+                <h1 id="nombre-producto"></h1>
+                <div class="bloque-precios">
+                    <span class="precio-original" id="precio-original"></span>
+                    <span class="precio-actual" id="precio-actual"></span>
+                </div>
+                <p class="cuotas-info" id="cuotas-info"></p>
+                <p class="descripcion-corta" id="descripcion-corta"></p>
+                <!-- Selector de cantidad -->
+                <div class="cantidad-bloque">
+                    <label for="cantidad">Cantidad:</label>
+                    <div class="selector-cantidad">
+                        <button class="btn-cantidad" id="btn-menos" type="button" title="Disminuir cantidad" aria-label="Disminuir cantidad">−</button>
+                        <input type="number" id="cantidad" value="1" min="1" max="10" title="Cantidad" aria-label="Cantidad" placeholder="1">
+                        <button class="btn-cantidad" id="btn-mas" type="button" title="Aumentar cantidad" aria-label="Aumentar cantidad">+</button>
+                    </div>
+                </div>
+                <!-- BOTONES DE ACCIÓN → ESTILO PREMIUM -->
+                <div class="botones-accion">
+                    <button type="button" class="btn-comprar-ahora" id="btn-comprar-ahora">
+                        <i class="fa-solid fa-bolt"></i> Comprar ahora
+                    </button>
+                    <button type="button" class="btn-agregar-carrito" id="btn-agregar">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+                    </button>
+                    <div class="boton-favorito-wrapper">
+                        <button type="button" class="btn-favorito" id="btn-favorito" title="Agregar a favoritos" aria-label="Agregar a favoritos">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- DESCRIPCIÓN LARGA -->
+        <div class="descripcion-larga">
+            <h2>Descripción del producto</h2>
+            <p id="descripcion-larga-texto"></p>
+        </div>
+    </main>
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo-area">
+                <img src="/assets/logos/logomaxibuebles.png" alt="Maximuebles - Muebles del Valle Medio" class="footer-logo">
+                <p class="footer-slogan">Tu tienda de muebles de confianza</p>
+            </div>
+            <div class="footer-links-simples">
+                <a href="/nosotros.html">Nosotros</a>
+                <a href="/ayuda.html">Ayuda</a>
+                <a href="/contacto.html">Contacto</a>
+                <a href="/terminos.html">Términos</a>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 MaxiMuebles. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+    <!-- ✅ SCRIPTS EN ORDEN CORRECTO -->
+    <script src="/js/api.js"></script>
+    <script src="/js/carrito.js"></script>
+    <script src="/js/producto-detalle.js"></script>
+    <!-- ✅ SEO DINÁMICO → Actualiza título y descripción según el producto -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const nombre = document.getElementById('nombre-producto');
+        if (nombre && nombre.textContent) {
+            document.title = nombre.textContent + ' | MaxiMuebles · Valle Medio, Río Negro';
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                metaDesc.content = nombre.textContent + ' disponible en MaxiMuebles. Envíos a todo el Valle Medio desde Chimpay hasta Pomona. Calidad garantizada y armado gratuito.';
+            }
+        }
+    });
+    </script>
+</body>
+</html>

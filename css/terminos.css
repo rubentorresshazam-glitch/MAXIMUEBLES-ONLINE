@@ -1,0 +1,56 @@
+/* ===== PÁGINA TÉRMINOS Y CONDICIONES ===== */
+
+.pagina-seccion h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ffffff;
+    font-size: 28px;
+}
+
+.contenedor-terminos {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+.bloque-terminos {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.bloque-terminos h2 {
+    color: #2ecc71;
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.bloque-terminos p {
+    color: #e0e0e0;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .pagina-seccion h1 {
+        font-size: 24px;
+    }
+
+    .bloque-terminos {
+        padding: 18px;
+    }
+
+    .bloque-terminos h2 {
+        font-size: 16px;
+    }
+
+    .bloque-terminos p {
+        font-size: 14px;
+    }
+}
+

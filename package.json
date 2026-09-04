@@ -1,0 +1,33 @@
+{
+  "name": "maximuebles",
+  "version": "1.0.0",
+  "description": "Sitio web y tienda online de MaxiMuebles",
+  "main": "backend/server/server.js",
+  "scripts": {
+    "start": "node backend/server/server.js",
+    "dev": "nodemon backend/server/server.js"
+  },
+  "keywords": [
+    "muebles",
+    "tienda",
+    "maximuebles",
+    "ecommerce"
+  ],
+  "author": "MaxiMuebles",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "mercadopago": "^2.13.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^9.0.5",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

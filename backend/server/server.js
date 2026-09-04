@@ -1,0 +1,129 @@
+// ==================================================
+// SERVIDOR MAXIMUEBLES · TIENDA ONLINE
+// Conectado con: Neon PostgreSQL · Mercado Pago
+// ==================================================
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
+
+// ✅ CONEXIÓN A BASE DE DATOS → MISMA carpeta: backend/server/config/
+const db = require('./config/database');
+
+// ✅ MERCADO PAGO
+const { MercadoPagoConfig, Preference } = require('mercadopago');
+const mpClient = new MercadoPagoConfig({ 
+  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN 
+});
+
+const CUIT_EMPRESA = process.env.CUIT_EMPRESA || "30715002724";
+const NOMBRE_EMPRESA = process.env.NOMBRE_EMPRESA || "MAXIMUEBLES S.R.L.";
+
+// ==================================================
+// CONFIGURACIÓN
+// ==================================================
+const app = express();
+const PUERTO = process.env.PORT || 10000;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../../')));
+
+// ==================================================
+// ✅ RUTAS → MISMA carpeta: backend/server/routes/
+// ==================================================
+const productosRutas = require('./routes/productos.routes');
+app.use('/api/productos', productosRutas);
+
+const carritoRutas = require('./routes/carrito.routes');
+app.use('/api/carrito', carritoRutas);
+
+const pedidosRutas = require('./routes/pedidos.routes');
+app.use('/api/pedidos', pedidosRutas);
+
+const contactoRutas = require('./routes/contacto.routes');
+app.use('/api/contacto', contactoRutas);
+
+// ==================================================
+// 💳 MERCADO PAGO
+// ==================================================
+app.post('/api/crear-preferencia-pago', async (req, res) => {
+  try {
+    const { productos, total, datosComprador } = req.body;
+    const sesion_id = req.query.sesion_id || 'invitado';
+
+    const items = productos.map(item => ({
+      id: String(item.id),
+      title: item.nombre,
+      quantity: Number(item.cantidad),
+      unit_price: Number(item.precio)
+    }));
+
+    const preferencia = new Preference(mpClient);
+    const respuesta = await preferencia.create({
+      body: {
+        items,
+        payer: {
+          name: datosComprador?.nombre || 'Invitado',
+          email: datosComprador?.correo || 'cliente@maximuebles.com'
+        },
+        back_urls: {
+          success: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/pago-exitoso.html`,
+          failure: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/pago-fallido.html`,
+          pending: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/pago-pendiente.html`
+        },
+        auto_return: 'approved',
+        notification_url: `${process.env.WEB_URL || 'http://localhost:' + PUERTO}/api/notificacion-pago?sesion_id=${sesion_id}`,
+        external_reference: sesion_id
+      }
+    });
+
+    res.json({ ok: true, mensaje: 'Preferencia creada', datos: respuesta });
+  } catch (error) {
+    console.error('❌ Error MP:', error.message);
+    res.json({ ok: false, mensaje: error.message });
+  }
+});
+
+// ==================================================
+// ✅ ESTADO DEL SERVIDOR
+// ==================================================
+app.get('/api/estado', (req, res) => {
+  res.json({
+    ok: true,
+    mensaje: '✅ Servidor en línea',
+    empresa: NOMBRE_EMPRESA,
+    cuit: CUIT_EMPRESA,
+    mp: !!process.env.MERCADO_PAGO_ACCESS_TOKEN
+  });
+});
+
+// ==================================================
+// ✅ INICIAR
+// ==================================================
+app.listen(PUERTO, () => {
+  console.log('='.repeat(60));
+  console.log(`✅ SERVIDOR DE ${NOMBRE_EMPRESA} — EN LÍNEA`);
+  console.log('='.repeat(60));
+  console.log(`📍 Puerto: ${PUERTO}`);
+  console.log(`🗄️  DB: ${process.env.DB_HOST ? '✅' : '❌'}`);
+  console.log(`💳 MP: ${process.env.MERCADO_PAGO_ACCESS_TOKEN ? '✅' : '❌'}`);
+});
+
+// ==================================================
+// ✅ CACHÉ Y URLS LIMPIAS
+// ==================================================
+app.use((req, res, siguiente) => {
+  const rutasSinHtml = ['/index','/nosotros','/contacto','/ayuda','/comedor','/dormitorios','/living','/oficina','/ofertas'];
+  if (rutasSinHtml.includes(req.path)) {
+    return res.sendFile(path.join(__dirname, `../../${req.path.slice(1)}.html`));
+  }
+  siguiente();
+});
+
+const unDia = 86400000, unaSemana = unDia * 7;
+app.use('/assets', express.static(path.join(__dirname, '../../assets'), { maxAge: unaSemana }));
+app.use('/css', express.static(path.join(__dirname, '../../css'), { maxAge: unDia * 3 }));
+app.use('/js', express.static(path.join(__dirname, '../../js'), { maxAge: unDia * 3 }));

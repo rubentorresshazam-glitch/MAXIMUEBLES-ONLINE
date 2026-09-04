@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras | MaxiMuebles · Valle Medio, Río Negro</title>
+    <meta name="description" content="Revisá tus productos y finalizá tu compra con seguridad. Envío y armado gratuito desde Chimpay hasta Pomona.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://maximuebles-online.onrender.com/carrito.html">
+    <meta name="geo.region" content="AR-R">
+    <meta name="geo.placename" content="Choele Choel">
+    <meta name="geo.position" content="-39.32;-65.67">
+    <meta name="ICBM" content="-39.32, -65.67">
+    
+    <!-- ✅ TUS ENLACES → TAL CUAL LOS TENÍAS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/carrito.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- ✅ ESTILO PARA ACHICAR LA BARRA -->
+    <style>
+      .cabecera-principal {
+        padding: 0.4rem 0 !important; /* ← Mucho más chica arriba y abajo */
+        margin-bottom: 1rem !important;
+      }
+      .cabecera-principal .contenedor {
+        padding: 0.3rem 1.5rem !important; /* ← Menos espacio interno */
+        display: flex !important;
+        justify-content: flex-start !important; /* ← Logo a la izquierda */
+      }
+      .logo-imagen {
+        max-height: 55px !important; /* ← Tamaño del logo */
+        width: auto !important;
+        display: block;
+      }
+    </style>
+</head>
+<body>
+    <!-- ✅ ENCABEZADO → SOLO TU LOGO, BARRA BIEN CHICA -->
+    <header class="cabecera-principal">
+        <div class="contenedor">
+            <!-- ✅ TU LOGO → a la izquierda, tamaño ajustado -->
+            <a href="/index.html" class="logo">
+                <img src="/assets/logos/logomaxibuebles.png" alt="MaxiMuebles - Tienda de Muebles en Río Negro" class="logo-imagen">
+            </a>
+        </div>
+    </header>
+
+    <!-- ✅ TODO LO DEMÁS → EXACTAMENTE IGUAL A TU HTML -->
+    <main class="contenedor pagina-carrito">
+        <h2 class="titulo-pagina">Mi Carrito</h2>
+        <div class="contenedor-principal">
+            <div class="columna-productos">
+                <div id="pantalla-vacia" class="pantalla-vacia">
+                    <div class="contenido-vacio">
+                        <div class="icono-grande">🛒</div>
+                        <h3>Tu carrito está vacío</h3>
+                        <p>Aún no agregaste ningún producto. Explorá nuestra tienda y elegí tus muebles.</p>
+                        <a href="/index.html" class="boton-ir-tienda">✨ Ir a ver productos</a>
+                    </div>
+                </div>
+                <div id="lista-contenedor" class="lista-contenedor oculto">
+                    <h3 class="subtitulo-lista">Productos Seleccionados</h3>
+                    <div id="lista-items">
+                        <p class="mensaje-cargando">Cargando productos...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="columna-resumen">
+                <div class="panel-resumen">
+                    <h3>Resumen del Pedido</h3>
+                    <div class="fila-resumen">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$ 0,00</span>
+                    </div>
+                    <div class="fila-resumen">
+                        <span>Envío</span>
+                        <span class="texto-verde">Gratis 🎁</span>
+                    </div>
+                    <hr class="linea-divisoria">
+                    <div class="fila-resumen total">
+                        <strong>Total</strong>
+                        <strong id="total">$ 0,00</strong>
+                    </div>
+                    <div class="botones-acciones">
+                        <button id="btn-vaciar" class="boton-vaciar">🗑️ Vaciar Carrito</button>
+                        <a href="/mi-cuenta/checkout.html" id="btn-pagar" class="boton-pagar">✅ Finalizar Compra</a>
+                    </div>
+                    <p class="texto-seguridad">🔒 Compra segura y protegida</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ✅ TU PIE DE PÁGINA → IGUAL AL TUYO -->
+    <footer class="pie-pagina">
+        <div class="derechos">
+            <p>&copy; 2026 MaxiMuebles — Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- ✅ TUS SCRIPTS → TAL CUAL LOS TENÍAS -->
+    <script src="/js/api.js"></script>
+    <script src="/js/carrito.js"></script>
+</body>
+</html>

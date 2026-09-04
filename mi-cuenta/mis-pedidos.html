@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Pedidos | MaxiMuebles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/mis-pedidos.css">
+</head>
+<body>
+
+    <!-- Barra superior -->
+    <section class="topbar">
+        <div class="topbar-container">
+            <div class="topbar-item"><i class="fa-solid fa-truck-fast"></i> Envíos a todo el país</div>
+            <div class="topbar-item"><i class="fa-solid fa-shield-halved"></i> Garantía oficial</div>
+            <div class="topbar-item"><i class="fa-solid fa-lock"></i> Compra segura</div>
+        </div>
+    </section>
+
+    <!-- Encabezado -->
+    <header class="header header-simple">
+        <div class="header-top-container">
+            <div class="header-left">
+                <a href="/mi-cuenta/perfil.html" class="logo-link">
+                    <div class="logo-empresa">
+                        <span class="trebol-logo material-symbols-outlined">spa</span>
+                        <span class="texto-logo">MaxiMuebles</span>
+                    </div>
+                </a>
+            </div>
+            <div class="header-right">
+                <a href="/mi-cuenta/perfil.html" class="header-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Volver a Mi Cuenta
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pedidos-page">
+        <div class="pedidos-contenedor">
+
+            <h1><i class="fa-solid fa-box-archive"></i> Mis Pedidos</h1>
+
+            <!-- Pestañas de estado -->
+            <div class="filtros-pedidos">
+                <button class="filtro-pedido activo" onclick="filtrarPedidos('todos')">Todos</button>
+                <button class="filtro-pedido" onclick="filtrarPedidos('pendiente')">Pendientes</button>
+                <button class="filtro-pedido" onclick="filtrarPedidos('procesando')">En proceso</button>
+                <button class="filtro-pedido" onclick="filtrarPedidos('enviado')">Enviados</button>
+                <button class="filtro-pedido" onclick="filtrarPedidos('entregado')">Entregados</button>
+            </div>
+
+            <!-- Lista de pedidos -->
+            <div id="lista-pedidos">
+                <!-- Estado vacío -->
+                <div id="pedidos-vacios" class="pedido-vacio">
+                    <i class="fa-solid fa-box-open fa-3x"></i>
+                    <p>Aún no tienes pedidos registrados.</p>
+                    <a href="/index.html" class="btn btn-seguir">Ir a comprar</a>
+                </div>
+
+                <!-- Los pedidos se cargarán dinámicamente desde el backend -->
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 MAXIMUEBLES S.R.L | CUIT: 30-71500272-4 | Punto de Venta N° 00010</p>
+        </div>
+    </footer>
+
+    <!-- Script con ruta absoluta -->
+    <script src="/js/api.js"></script>
+    <script src="/js/mis-pedidos.js"></script>
+</body>
+</html>

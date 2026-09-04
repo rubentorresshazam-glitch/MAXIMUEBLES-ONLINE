@@ -1,0 +1,13 @@
+# ======================================
+# ROBOTS.TXT — MAXIMUEBLES
+# ======================================
+User-agent: *
+Allow: /
+
+# ✅ Páginas que NO deben aparecer en Google
+# (Los clientes SIGUEN pudiendo entrar y comprar)
+Disallow: /admin/
+Disallow: /facturacion.html
+
+# ✅ Mapa del sitio
+Sitemap: https://maximuebles-online.onrender.com/sitemap.xml

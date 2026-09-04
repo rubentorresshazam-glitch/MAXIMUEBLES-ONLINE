@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ✅ SEO PRINCIPAL -->
+    <title>Muebles para Dormitorios | MaxiMuebles · Río Negro y Valle Medio</title>
+    <meta name="description" content="Camas, placares, mesas de luz, espejos y muebles para tu dormitorio. Diseño y calidad en MaxiMuebles. Envíos desde Chimpay hasta Pomona. Armado gratuito.">
+    <meta name="keywords" content="muebles dormitorio Río Negro, camas, placares, mesas de luz, espejos, sommiers, colchones, dormitorios completos, comprar dormitorio Choele Choel, Luis Beltrán">
+    <meta name="author" content="MAXIMUEBLES S.R.L.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://maximuebles-online.onrender.com/pages/dormitorios.html">
+    <!-- ✅ SEO PARA REDES SOCIALES -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Muebles para Dormitorios | MaxiMuebles">
+    <meta property="og:description" content="Todo para equipar tu habitación. Camas, placares, mesas de luz y más. Envíos a todo el Valle Medio y armado gratuito.">
+    <meta property="og:url" content="https://maximuebles-online.onrender.com/pages/dormitorios.html">
+    <meta property="og:site_name" content="MaxiMuebles">
+    <meta property="og:locale" content="es_AR">
+    <!-- ✅ GEOLOCALIZACIÓN -->
+    <meta name="geo.region" content="AR-R">
+    <meta name="geo.placename" content="Valle Medio, Río Negro">
+    <!-- ✅ COLOR EN NAVEGADOR MÓVIL -->
+    <meta name="msapplication-TileColor" content="#006633">
+    <!-- Fuentes e Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dormitorio.css">
+</head>
+<body>
+    <!-- ==============================================
+                    BARRA SUPERIOR → IGUAL
+     ============================================== -->
+    <section class="topbar">
+        <div class="topbar-container">
+            <div class="topbar-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span>Envíos a todo el Valle Medio</span>
+            </div>
+            <div class="topbar-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Compra 100% segura</span>
+            </div>
+            <div class="topbar-item">
+                <i class="fa-solid fa-handshake"></i>
+                <span>Armado gratuito</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================
+         ENCABEZADO → CARRITO SIN NÚMERO FIJO
+       ============================================== -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-top-container">
+                <!-- Logo -->
+                <div class="header-left">
+                    <a href="/index.html" class="logo-link">
+                        <img src="/assets/logos/logomaxibuebles.png" alt="Maximuebles - Muebles para Dormitorios" class="logo-imagen">
+                    </a>
+                </div>
+                <!-- Buscador ✅ Con ID y evento -->
+                <div class="header-center">
+                    <div class="search-bar">
+                        <input type="text" id="buscador-productos" class="search-input" placeholder="¿Qué estás buscando?" onkeyup="aplicarFiltros()">
+                        <button type="button" class="search-btn" aria-label="Buscar" title="Buscar" onclick="aplicarFiltros()">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Iconos → CARRITO CORREGIDO -->
+                <div class="header-right">
+                    <button class="header-btn">
+                        <i class="fa-solid fa-heart"></i>
+                        <span>Favoritos</span>
+                    </button>
+                    <!-- ✅ SIN NÚMERO ESCRITO → el JS lo muestra solo si hay productos -->
+                    <a href="/mi-cuenta/carrito.html" class="header-btn cart-btn" aria-label="Ver carrito de compras" title="Ver carrito de compras">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="cart-count" id="headerCartCount"></div>
+                    </a>
+                    <!-- Botón Menú celular -->
+                    <div class="menu-celular-boton-solo">
+                        <button type="button" class="boton-menu-animado" id="botonMenuAnimado" aria-label="Abrir menú">
+                            <span class="icono-menu"><i class="fa-solid fa-bars"></i></span>
+                            <span class="texto-menu">Menú</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==============================================
+                            MENÚ PRINCIPAL → IGUAL
+             ============================================== -->
+           <nav class="navbar">
+                <div class="navbar-container menu-pc">
+                    <a href="/index.html" class="nav-item">Inicio</a>
+                    <a href="/nosotros.html" class="nav-item">Nosotros</a>
+                    <a href="/pages/living.html" class="nav-item">Living</a>
+                    <a href="/pages/dormitorios.html" class="nav-item">Dormitorios</a>
+                    <a href="/pages/comedor.html" class="nav-item active">Comedor</a>
+                    <a href="/pages/oficina.html" class="nav-item">Oficina</a>
+                    <a href="/pages/ofertas.html" class="nav-item">Ofertas</a>
+                    <a href="/contacto.html" class="nav-item">Contacto</a>
+                    <div class="redes-contenedor">
+                        <a href="https://www.facebook.com/maxi.muebles.498598" target="_blank" rel="noopener noreferrer" class="btn-red btn-facebook" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/maximuebleschch/" target="_blank" rel="noopener noreferrer" class="btn-red btn-instagram" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <div class="wp-boton-final">
+                            <a href="#" class="boton-wp" aria-label="WhatsApp">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                            <div class="lista-wp">
+                                <a href="https://wa.me/5492946516236" target="_blank" rel="noopener noreferrer">MaxiMuebles</a>
+                                <a href="https://wa.me/5492984564761" target="_blank" rel="noopener noreferrer">Juan</a>
+                                <a href="https://wa.me/5492984311890" target="_blank" rel="noopener noreferrer">Gonzalo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- ==============================================
+         CONTENIDO DE DORMITORIOS → CON ID EN GRILLA
+     ============================================== -->
+    <main class="pagina-seccion">
+        <h1>Muebles para Dormitorios</h1>
+        <!-- 📋 FILTROS -->
+        <div class="barra-filtros">
+            <select id="filtro-categoria" onchange="aplicarFiltros()" aria-label="Filtrar por categoría">
+                <option value="">Todas las categorías</option>
+                <option value="living">Living</option>
+                <option value="dormitorio" selected>Dormitorio</option>
+                <option value="comedor">Comedor</option>
+                <option value="oficina">Oficina</option>
+            </select>
+            <select id="filtro-precio" onchange="aplicarFiltros()" aria-label="Filtrar por rango de precio">
+                <option value="">Todos los precios</option>
+                <option value="0-50000">Hasta $50.000</option>
+                <option value="50000-150000">$50.000 a $150.000</option>
+                <option value="150000-9999999">Más de $150.000</option>
+            </select>
+            <select id="filtro-orden" onchange="aplicarFiltros()" aria-label="Ordenar resultados">
+                <option value="">Ordenar por</option>
+                <option value="nombre-az">Nombre A-Z</option>
+                <option value="precio-menor">Menor precio</option>
+                <option value="precio-mayor">Mayor precio</option>
+            </select>
+            <span id="cantidad-resultados"></span>
+        </div>
+        <!-- FIN FILTROS -->
+        <div class="productos-grid" id="productos-grid">
+            <!-- Aquí se cargarán los productos desde la base de datos -->
+            <p class="mensaje-cargando">Cargando productos...</p>
+        </div>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo-area">
+                <img src="/assets/logos/logomaxibuebles.png" alt="Maximuebles - Muebles para Dormitorios en Río Negro" class="footer-logo">
+                <p class="footer-slogan">Tu tienda de muebles de confianza</p>
+            </div>
+            <div class="footer-links-simples">
+                <a href="/nosotros.html">Nosotros</a>
+                <a href="/ayuda.html">Ayuda</a>
+                <a href="/contacto.html">Contacto</a>
+                <a href="/terminos.html">Términos</a>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Maximuebles. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ✅ SCRIPTS EN ORDEN CORRECTO -->
+    <script src="/js/api.js"></script>
+    <script src="/js/carrito.js?v=10"></script>
+    <script src="/js/dormitorio.js"></script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✅ SEO PRINCIPAL -->
+    <title>Finalizar Compra | MaxiMuebles · Envíos Valle Medio</title>
+    <meta name="description" content="Completá tus datos y pagá de forma segura. Factura Consumidor Final. Envíos y armado gratuito desde Chimpay hasta Pomona.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://tudominio.com/mi-cuenta/checkout.html">
+
+    <!-- ✅ GEOLOCALIZACIÓN -->
+    <meta name="geo.region" content="AR-R">
+    <meta name="geo.placename" content="Valle Medio, Río Negro">
+
+    <!-- Fuentes e Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/checkout.css?v=3">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        .input-lectura {
+            width: 100%;
+            box-sizing: border-box;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            color: #333;
+            font-weight: 500;
+            cursor: default;
+            padding: 0.9rem 1rem;
+        }
+        .logo-checkout {
+            max-width: 220px;
+            height: auto;
+        }
+        .ayuda-campo {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="topbar">
+        <div class="topbar-container">
+            <div class="topbar-item"><i class="fa-solid fa-truck-fast"></i> Envíos a todo el Valle Medio</div>
+            <div class="topbar-item"><i class="fa-solid fa-shield-halved"></i> Garantía oficial</div>
+            <div class="topbar-item"><i class="fa-solid fa-lock"></i> Compra segura</div>
+        </div>
+    </section>
+
+    <header class="header header-simple">
+        <div class="header-top-container">
+            <div class="header-left">
+                <div class="logo-empresa">
+                    <a href="/index.html" class="logo-link" aria-label="Ir al inicio">
+                        <img src="/assets/logos/logomaxibuebles.png" alt="MaxiMuebles - Finalizar Compra" class="logo-checkout">
+                    </a>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="/mi-cuenta/carrito.html" class="header-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al carrito
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="checkout-container">
+
+        <!-- Paso 1: Datos de entrega ✅ CON CAMPOS DE REMITO -->
+        <div class="checkout-screen active" id="paso-envio">
+            <h2 class="titulo-paso">📍 Datos de entrega</h2>
+            <form id="form-envio" class="formulario-estilizado">
+                <div class="form-grupo">
+                    <label for="nombre">Nombre y Apellido *</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
+                </div>
+
+                <div class="form-fila">
+                    <div class="form-grupo">
+                        <label for="dni">DNI / CUIL *</label>
+                        <input type="text" id="dni" name="dni" required placeholder="Ej: 12.345.678">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="tipo-factura-lectura">Tipo de facturación</label>
+                        <input type="text" id="tipo-factura-lectura" value="Consumidor Final" readonly class="input-lectura" aria-label="Tipo de facturación">
+                        <input type="hidden" id="tipo-factura" name="tipo-factura" value="consumidor_final">
+                    </div>
+                </div>
+
+                <div class="form-fila">
+                    <div class="form-grupo">
+                        <label for="calle">Calle y Altura *</label>
+                        <input type="text" id="calle" name="calle" required placeholder="Ej: Av. San Martín 1234">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="piso">Piso / Depto / Manzana</label>
+                        <input type="text" id="piso" name="piso" placeholder="Ej: Piso 2, Depto B">
+                    </div>
+                </div>
+
+                <div class="form-fila">
+                    <div class="form-grupo">
+                        <label for="cp">Código Postal *</label>
+                        <input type="text" id="cp" name="cp" required placeholder="Ej: 8361">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="localidad">Localidad *</label>
+                        <select id="localidad" name="localidad" required>
+                            <option value="">Seleccionar localidad</option>
+                            <option value="Chimpay">Chimpay</option>
+                            <option value="Luis Beltrán">Luis Beltrán</option>
+                            <option value="Choele Choel">Choele Choel</option>
+                            <option value="Lamarque">Lamarque</option>
+                            <option value="Pomona">Pomona</option>
+                            <option value="Velizle">Velizle</option>
+                            <option value="Darwin">Darwin</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="provincia-lectura">Provincia</label>
+                    <input type="text" id="provincia-lectura" value="Río Negro" readonly class="input-lectura" aria-label="Provincia">
+                    <input type="hidden" id="provincia" name="provincia" value="RN">
+                </div>
+
+                <div class="form-grupo">
+                    <label for="telefono">Teléfono de contacto *</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="Ej: +54 294 4123456">
+                </div>
+
+                <!-- ✅ CAMPOS EXCLUSIVOS DEL REMITO -->
+                <div class="form-grupo">
+                    <label for="recibe">¿Retira otra persona? Escribí su nombre</label>
+                    <input type="text" id="recibe" name="recibe" placeholder="Si retira el mismo comprador, dejalo vacío">
+                    <p class="ayuda-campo">Este dato solo aparece en el remito de entrega</p>
+                </div>
+
+                <div class="form-grupo">
+                                   <div class="form-grupo">
+                    <label for="horario">Horario de entrega preferido</label>
+                    <input type="text" id="horario" name="horario" placeholder="Ej: Mañana 10hs / Tarde 17hs / A convenir">
+                    <p class="ayuda-campo">Escribí el horario que te quede mejor. Ejemplos: 09 a 12hs — 16 a 20hs</p>
+                </div>
+                    <p class="ayuda-campo">Este dato solo aparece en el remito de entrega</p>
+                </div>
+
+            </form>
+            <div class="grupo-botones">
+                <button type="button" class="btn btn-siguiente" onclick="irPaso(2)">Continuar</button>
+            </div>
+        </div>
+
+        <!-- Paso 2: Datos de la empresa -->
+        <div class="checkout-screen" id="paso-empresa">
+            <h2 class="titulo-paso">🧾 Datos de la factura</h2>
+            <div class="datos-empresa">
+                <h3>DATOS DEL CONTRIBUYENTE</h3>
+                <p><strong>Razón Social:</strong> MAXIMUEBLES S.R.L</p>
+                <p><strong>CUIT:</strong> 30-71500272-4</p>
+                <p><strong>Domicilio Fiscal:</strong> Roque Sáenz Peña y Castillón N° 0 - CP 8361</p>
+                <p><strong>Localidad / Provincia:</strong> Luis Beltrán - Río Negro</p>
+                <p><strong>Dependencia ARCA:</strong> 721 - Agencia General Roca</p>
+                <p><strong>Actividad Principal:</strong> Venta al por menor de muebles para el hogar, artículos de mimbre y corcho</p>
+                <br>
+                <h3>DETALLE DEL PUNTO DE VENTA / EMISIÓN</h3>
+                <p><strong>Número de Punto de Venta:</strong> 00010</p>
+                <p><strong>Sistema de emisión:</strong> RECE para aplicativo y web services</p>
+                <p><strong>Fecha de alta:</strong> 07/07/2026</p>
+                <p><strong>Condición frente al IVA:</strong> Responsable Inscripto</p>
+            </div>
+            <div class="grupo-botones">
+                <button type="button" class="btn btn-volver" onclick="irPaso(1)">Volver</button>
+                <button type="button" class="btn btn-siguiente" onclick="irPaso(3)">Continuar</button>
+            </div>
+        </div>
+
+        <!-- Paso 3: Forma de pago -->
+        <div class="checkout-screen" id="paso-pago">
+            <h2 class="titulo-paso">💳 Forma de pago</h2>
+
+            <label class="opcion-pago">
+                <input type="radio" name="metodo-pago" value="mercadopago" checked>
+                <div class="contenido-opcion">
+                    <strong>💳 Pagar con Mercado Pago</strong>
+                    <p>Serás dirigido a la página oficial y segura de Mercado Pago para elegir cómo pagar:</p>
+                    <ul>
+                        <li>✅ Todas las tarjetas <strong>Visa, Mastercard, bancarizadas y no bancarizadas</strong></li>
+                        <li>✅ 3, 6 y 9 cuotas sin interés</li>
+                        <li>✅ Transferencia / 10% de descuento</li>
+                        <li>✅ Tarjeta de Débito / 10% de descuento</li>
+                        <li>✅ Dinero en cuenta de Mercado Pago</li>
+                    </ul>
+                </div>
+            </label>
+
+            <div class="grupo-botones">
+                <button type="button" class="btn btn-volver" onclick="irPaso(2)">Volver</button>
+                <button type="button" class="btn btn-siguiente" onclick="irPaso(4)">Continuar</button>
+            </div>
+        </div>
+
+        <!-- Paso 4: Resumen final -->
+        <div class="checkout-screen" id="paso-resumen">
+            <h2 class="titulo-paso">📋 Resumen de tu compra</h2>
+
+            <div class="resumen-factura">
+                <h3>Datos del comprador</h3>
+                <p><strong>Nombre:</strong> <span id="res_nombre"></span></p>
+                <p><strong>DNI / CUIL:</strong> <span id="res_dni"></span></p>
+                <p><strong>Tipo de facturación:</strong> Consumidor Final</p>
+                <p><strong>Domicilio completo:</strong> <span id="res_domicilio"></span></p>
+                <p><strong>Teléfono de contacto:</strong> <span id="res_telefono"></span></p>
+                <!-- No mostramos Recibe ni Horario en la factura, solo en el remito -->
+                <p><strong>Método de pago elegido:</strong> <span id="res_metodo_pago"></span></p>
+            </div>
+
+            <div class="resumen-pedido">
+                <h3>Productos y totales</h3>
+                <div id="lista_productos"></div>
+                <div class="totales">
+                    <p>Subtotal: <span id="res_subtotal">$ 0,00</span></p>
+                    <p>Costo de envío: <span id="res_envio">$ 0,00</span></p>
+                    <h3>Total a pagar: <span id="res_total">$ 0,00</span></h3>
+                </div>
+            </div>
+
+            <div class="aviso-seguro">
+                <i class="fa-solid fa-lock"></i> Todos tus datos están protegidos y encriptados
+            </div>
+
+            <div class="grupo-botones">
+                <button type="button" class="btn btn-volver" onclick="irPaso(3)">Volver</button>
+                <button type="button" class="btn btn-finalizar" onclick="procesarPago()">Confirmar y finalizar compra</button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 MAXIMUEBLES S.R.L | CUIT: 30-71500272-4 | Punto de Venta N° 00010</p>
+        </div>
+    </footer>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/checkout.js?v=3"></script>
+
+</body>
+</html>
