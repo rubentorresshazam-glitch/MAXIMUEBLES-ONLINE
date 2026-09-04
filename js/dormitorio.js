@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const grilla = document.getElementById('productos-grid');
   if (!grilla) return;
-
   grilla.innerHTML = `<p class="mensaje-cargando">Cargando productos...</p>`;
 
   // ✅ CORREGIDO: sin /api duplicado
@@ -25,27 +24,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   grilla.innerHTML = '';
-
   if (productos.length === 0) {
     grilla.innerHTML = `<p class="mensaje-vacio">Por el momento no hay productos en esta categoría.</p>`;
     return;
   }
 
-  // ✅ DIBUJA LAS TARJETAS
+  // ✅ DIBUJA LAS TARJETAS — ENLACE CORREGIDO
   productos.forEach(prod => {
     const precio = Number(prod.precio);
     const img = prod.imagenes && prod.imagenes !== null
       ? prod.imagenes.split(',')[0].trim()
       : '';
-
     const tarjeta = document.createElement('div');
     tarjeta.className = 'producto-card';
     tarjeta.dataset.categoria = prod.categoria || '';
     tarjeta.dataset.precio = precio;
     tarjeta.dataset.nombre = prod.nombre || '';
-
     tarjeta.innerHTML = `
-      <a href="/producto-detalles.html?id=${prod.id}" class="enlace-producto">
+      <a href="/producto-detalle.html?id=${prod.id}" class="enlace-producto">
         <div style="width:100%;height:200px;background:#e9ecef;display:flex;align-items:center;justify-content:center;color:#495057;font-weight:bold;text-align:center;padding:10px;">
           ${prod.nombre}
         </div>
@@ -58,11 +54,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
       </button>
     `;
-
     grilla.appendChild(tarjeta);
   });
 
-  // ✅ BOTÓN AGREGAR AL CARRITO — CORREGIDO: pasa el OBJETO completo
+  // ✅ BOTÓN AGREGAR AL CARRITO
   document.querySelectorAll('.btn-agregar').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -73,18 +68,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         precio: Number(boton.dataset.precio),
         cantidad: 1
       };
-
       if (typeof agregarAlCarrito === 'function') {
-        // ✅ CORREGIDO: le pasamos el OBJETO completo (como espera carrito.js)
-        const ok = await agregarAlCarrito(producto);
-        if (ok) {
-          boton.innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
-          boton.style.background = '#28a745';
-          setTimeout(() => {
-            boton.innerHTML = `<i class="fa-solid fa-cart-plus"></i> Agregar al carrito`;
-            boton.style.background = '';
-          }, 2000);
-        }
+        agregarAlCarrito(producto);
+        boton.innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
+        boton.style.background = '#28a745';
+        setTimeout(() => {
+          boton.innerHTML = `<i class="fa-solid fa-cart-plus"></i> Agregar al carrito`;
+          boton.style.background = '';
+        }, 2000);
       }
     });
   });
@@ -132,7 +123,6 @@ function aplicarFiltros() {
   // ✅ Mostrar resultados
   document.querySelectorAll('#productos-grid > div').forEach(t => t.style.display = 'none');
   productos.forEach(t => t.style.display = '');
-
   const contador = document.getElementById('cantidad-resultados');
   if (contador) {
     contador.textContent = `${productos.length} producto(s)`;

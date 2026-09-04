@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ✅ CORREGIDO: usa el ID del HTML
   const grilla = document.getElementById('productos-grid');
   if (!grilla) return;
-
   grilla.innerHTML = `<p class="mensaje-cargando">Cargando productos...</p>`;
 
   // ✅ CORREGIDO: SIN /api duplicado
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   grilla.innerHTML = '';
-
   if (productos.length === 0) {
     grilla.innerHTML = `<p class="mensaje-vacio">Por el momento no hay productos en esta categoría.</p>`;
     return;
@@ -35,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ✅ DIBUJA LAS TARJETAS — SIN IMAGEN EXTERNA
   productos.forEach(prod => {
     const precio = Number(prod.precio);
-    // ✅ Si no hay imagen → cuadro gris con el nombre (sin servicios externos)
+    // ✅ Si no hay imagen → cuadro gris con el nombre
     const tieneImagen = prod.imagenes && prod.imagenes !== null && prod.imagenes.trim() !== '';
     const tarjeta = document.createElement('div');
     tarjeta.className = 'producto-card';
@@ -46,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (tieneImagen) {
       const imgUrl = prod.imagenes.split(',')[0].trim();
       tarjeta.innerHTML = `
-        <a href="/producto-detalles.html?id=${prod.id}" class="enlace-producto">
+        <a href="/producto-detalle.html?id=${prod.id}" class="enlace-producto">
           <img src="${imgUrl}" alt="${prod.nombre}" class="img-producto" loading="lazy">
           <h3>${prod.nombre}</h3>
           <div class="producto-descripcion">${prod.descripcion || ''}</div>
@@ -58,9 +56,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         </button>
       `;
     } else {
-      // ✅ SIN imagen → cuadro de color local (sin depender de servicios externos)
+      // ✅ SIN imagen → cuadro de color local
       tarjeta.innerHTML = `
-        <a href="/producto-detalles.html?id=${prod.id}" class="enlace-producto">
+        <a href="/producto-detalle.html?id=${prod.id}" class="enlace-producto">
           <div style="width:100%;height:200px;background:#e9ecef;display:flex;align-items:center;justify-content:center;color:#495057;font-weight:bold;text-align:center;padding:10px;font-size:16px;">
             ${prod.nombre}
           </div>
@@ -74,11 +72,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         </button>
       `;
     }
-
     grilla.appendChild(tarjeta);
   });
 
-  // ✅ BOTÓN AGREGAR AL CARRITO — pasa el OBJETO completo
+  // ✅ BOTÓN AGREGAR AL CARRITO
   document.querySelectorAll('.btn-agregar').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -89,17 +86,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         precio: Number(boton.dataset.precio),
         cantidad: 1
       };
-
       if (typeof agregarAlCarrito === 'function') {
-        const ok = await agregarAlCarrito(producto);
-        if (ok) {
-          boton.innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
-          boton.style.background = '#28a745';
-          setTimeout(() => {
-            boton.innerHTML = `<i class="fa-solid fa-cart-plus"></i> Agregar al carrito`;
-            boton.style.background = '';
-          }, 2000);
-        }
+        agregarAlCarrito(producto);
+        boton.innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
+        boton.style.background = '#28a745';
+        setTimeout(() => {
+          boton.innerHTML = `<i class="fa-solid fa-cart-plus"></i> Agregar al carrito`;
+          boton.style.background = '';
+        }, 2000);
       }
     });
   });
@@ -148,7 +142,6 @@ function aplicarFiltros() {
   // ✅ Mostrar resultados
   document.querySelectorAll('#productos-grid > div').forEach(t => t.style.display = 'none');
   productos.forEach(t => t.style.display = '');
-
   const contador = document.getElementById('cantidad-resultados');
   if (contador) {
     contador.textContent = `${productos.length} producto(s)`;

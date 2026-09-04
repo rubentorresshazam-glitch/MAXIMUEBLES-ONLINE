@@ -22,7 +22,7 @@ function irPaso(n) {
   if (n === 4) cargarResumenFinal();
 }
 
-// ✅ CARGA EL CARRITO — SIN INICIO DE SESIÓN
+// ✅ CARGA EL CARRITO — desde localStorage
 async function cargarResumenCarrito() {
   totalCompra = 0;
   carrito = [];
@@ -34,13 +34,11 @@ async function cargarResumenCarrito() {
       carrito = [];
     }
   }
-
   if (!carrito.length) {
     alert("Tu carrito está vacío");
-    window.location.href = "/mi-cuenta/carrito.html";
+    window.location.href = "/carrito.html";
     return;
   }
-
   const lista = document.getElementById("lista_productos");
   lista.innerHTML = "";
   carrito.forEach(item => {
@@ -48,7 +46,6 @@ async function cargarResumenCarrito() {
     totalCompra += subt;
     lista.innerHTML += `<p>${item.nombre || 'Producto'} × ${item.cantidad} = <strong>$ ${subt.toLocaleString("es-AR")}</strong></p>`;
   });
-
   const envio = totalCompra > 50000 ? 0 : 4990;
   totalCompra += envio;
   document.getElementById("res_subtotal").textContent = `$ ${(totalCompra - envio).toLocaleString("es-AR")}`;
@@ -61,22 +58,19 @@ function cargarResumenFinal() {
   document.getElementById("res_nombre").textContent = document.getElementById("nombre").value || "-";
   document.getElementById("res_dni").textContent = document.getElementById("dni").value || "-";
   document.getElementById("res_telefono").textContent = document.getElementById("telefono").value || "-";
-
   const calle = document.getElementById("calle").value;
   const piso = document.getElementById("piso").value;
   const cp = document.getElementById("cp").value;
   const loc = document.getElementById("localidad").value;
   const prov = "Río Negro";
-
   let domicilioCompleto = calle;
   if (piso) domicilioCompleto += `, ${piso}`;
   domicilioCompleto += ` — ${loc} (${cp}), ${prov}`;
-
   document.getElementById("res_domicilio").textContent = domicilioCompleto;
   document.getElementById("res_metodo_pago").textContent = "Pagar con Mercado Pago";
 }
 
-// ✅ PAGO — CORREGIDO: usa peticion() SIN /api + id → producto_id
+// ✅ PROCESAR PAGO — GUARDA PEDIDO Y GENERA ENLACE
 async function procesarPago() {
   const nombre = document.getElementById("nombre").value.trim();
   const dni = document.getElementById("dni").value.trim();
@@ -84,6 +78,7 @@ async function procesarPago() {
   const cp = document.getElementById("cp").value.trim();
   const localidad = document.getElementById("localidad").value;
   const telefono = document.getElementById("telefono").value.trim();
+  const direccionCompleta = `${calle}, ${document.getElementById("piso").value.trim() || ''} - ${localidad} (${cp}), Río Negro`.trim();
 
   if (!nombre || !dni || !calle || !cp || !localidad || !telefono) {
     alert("⚠️ Completá todos los datos obligatorios por favor");
@@ -92,8 +87,8 @@ async function procesarPago() {
 
   alert("✅ Preparando el pago... en unos segundos irás a Mercado Pago");
 
-  // ✅ Convertimos id → producto_id para que lo entienda el servidor
-  const carritoParaEnviar = carrito.map(item => ({
+  // ✅ Convertimos para el servidor: id → producto_id
+  const productosParaEnviar = carrito.map(item => ({
     producto_id: item.id,
     cantidad: item.cantidad,
     nombre: item.nombre,
@@ -101,36 +96,49 @@ async function procesarPago() {
   }));
 
   const datosCompra = {
-    carrito: carritoParaEnviar,
+    nombre,
+    correo: document.getElementById("correo")?.value?.trim() || "cliente@maximuebles.com.ar",
+    telefono,
+    direccion: direccionCompleta,
+    productos: productosParaEnviar,
     total: totalCompra,
-    nombre: nombre,
-    dni: dni,
-    calle: calle,
-    piso: document.getElementById("piso").value.trim(),
-    cp: cp,
-    localidad: localidad,
-    provincia: "Río Negro",
-    telefono: telefono,
-    recibe: document.getElementById("recibe").value.trim() || "El mismo comprador",
-    horario: document.getElementById("horario").value || "A convenir",
-    fecha: new Date().toISOString()
+    notas: `DNI: ${dni} | Recibe: ${document.getElementById("recibe")?.value || nombre} | Horario: ${document.getElementById("horario")?.value || "A convenir"}`
   };
 
   localStorage.setItem("ultimaCompra", JSON.stringify(datosCompra));
-  localStorage.setItem("carrito_pago", JSON.stringify({ carrito: carritoParaEnviar, totalCompra }));
+  localStorage.setItem("carrito_pago", JSON.stringify({ carrito: productosParaEnviar, totalCompra }));
 
-  // ✅ LLAMADA CORRECTA: SOLO "/pagar" → api.js ya pone el resto
-  const resp = await peticion("/pagar", "POST", {
-    carrito: carritoParaEnviar,
-    datos: datosCompra
-  });
+  try {
+    // ✅ PASO 1: Guardar pedido en la base de datos
+    const respPedido = await peticion("/pedidos", "POST", datosCompra);
+    console.log("📦 Pedido guardado:", respPedido);
 
-  console.log("RESPUESTA FINAL:", resp);
+    if (!respPedido.ok) {
+      alert(respPedido.mensaje || "No se pudo registrar tu pedido. Intentá nuevamente.");
+      return;
+    }
 
-  if (resp.ok && resp.datos && resp.datos.link_pago) {
-    alert("✅ ¡Listo! A continuación serás redirigido a Mercado Pago para finalizar tu compra");
-    window.location.href = resp.datos.link_pago;
-  } else {
-    alert(resp.mensaje || "No se pudo generar el enlace de pago");
+    // ✅ PASO 2: Generar enlace de Mercado Pago
+    const respPago = await peticion("/crear-preferencia-pago", "POST", {
+      productos: carrito,
+      total: totalCompra,
+      datosComprador: {
+        nombre,
+        correo: datosCompra.correo
+      }
+    });
+    console.log("💳 Respuesta Mercado Pago:", respPago);
+
+    if (respPago.ok && respPago.datos && respPago.datos.init_point) {
+      // ✅ Pedido registrado → limpiamos carrito y redirigimos
+      localStorage.removeItem("carrito");
+      alert("✅ ¡Listo! A continuación serás redirigido a Mercado Pago para finalizar tu compra");
+      window.location.href = respPago.datos.init_point;
+    } else {
+      alert(respPago.mensaje || "No se pudo generar el enlace de pago");
+    }
+  } catch (error) {
+    console.error("❌ Error en el proceso:", error);
+    alert("Hubo un problema al procesar tu compra. Intentá nuevamente.");
   }
 }

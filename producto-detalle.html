@@ -42,6 +42,7 @@
             </div>
         </div>
     </section>
+
     <!-- ENCABEZADO -->
     <header class="header">
         <div class="header-top">
@@ -52,6 +53,7 @@
                         <img src="/assets/logos/logomaxibuebles.png" alt="Maximuebles - Tienda de Muebles Valle Medio" class="logo-imagen">
                     </a>
                 </div>
+
                 <!-- ✅ Buscador CON ID y evento -->
                 <div class="header-center">
                     <div class="search-bar">
@@ -61,6 +63,7 @@
                         </button>
                     </div>
                 </div>
+
                 <!-- Iconos -->
                 <div class="header-right">
                     <button class="header-btn">
@@ -82,17 +85,20 @@
                 </div>
             </div>
         </div>
-        <!-- MENÚ DE NAVEGACIÓN -->
+
+        <!-- MENÚ DE NAVEGACIÓN ✅ RUTAS CORREGIDAS -->
         <nav class="navbar">
             <div class="navbar-container menu-pc">
                 <a href="/index.html" class="nav-item">Inicio</a>
                 <a href="/nosotros.html" class="nav-item">Nosotros</a>
                 <a href="/pages/living.html" class="nav-item">Living</a>
-                <a href="/pages/dormitorios.html" class="nav-item">Dormitorios</a>
+                <!-- ✅ CORREGIDO: dormitorio.html (sin la "s") -->
+                <a href="/pages/dormitorio.html" class="nav-item">Dormitorios</a>
                 <a href="/pages/comedor.html" class="nav-item">Comedor</a>
                 <a href="/pages/oficina.html" class="nav-item">Oficina</a>
                 <a href="/pages/ofertas.html" class="nav-item">Ofertas</a>
                 <a href="/contacto.html" class="nav-item">Contacto</a>
+
                 <!-- Redes sociales -->
                 <div class="redes-contenedor">
                     <a href="https://www.facebook.com/maxi.muebles.498598" target="_blank" rel="noopener noreferrer" class="btn-red btn-facebook" aria-label="Facebook">
@@ -113,6 +119,7 @@
             </div>
         </nav>
     </header>
+
     <!-- CONTENIDO PRINCIPAL -->
     <main>
         <div class="producto-contenedor">
@@ -133,6 +140,7 @@
                     </button>
                 </div>
             </div>
+
             <!-- DATOS DEL PRODUCTO -->
             <div class="producto-datos">
                 <h1 id="nombre-producto"></h1>
@@ -142,6 +150,7 @@
                 </div>
                 <p class="cuotas-info" id="cuotas-info"></p>
                 <p class="descripcion-corta" id="descripcion-corta"></p>
+
                 <!-- Selector de cantidad -->
                 <div class="cantidad-bloque">
                     <label for="cantidad">Cantidad:</label>
@@ -151,6 +160,7 @@
                         <button class="btn-cantidad" id="btn-mas" type="button" title="Aumentar cantidad" aria-label="Aumentar cantidad">+</button>
                     </div>
                 </div>
+
                 <!-- BOTONES DE ACCIÓN → ESTILO PREMIUM -->
                 <div class="botones-accion">
                     <button type="button" class="btn-comprar-ahora" id="btn-comprar-ahora">
@@ -167,12 +177,14 @@
                 </div>
             </div>
         </div>
+
         <!-- DESCRIPCIÓN LARGA -->
         <div class="descripcion-larga">
             <h2>Descripción del producto</h2>
             <p id="descripcion-larga-texto"></p>
         </div>
     </main>
+
     <!-- PIE DE PÁGINA -->
     <footer class="footer">
         <div class="footer-container">
@@ -191,10 +203,12 @@
             </div>
         </div>
     </footer>
+
     <!-- ✅ SCRIPTS EN ORDEN CORRECTO -->
     <script src="/js/api.js"></script>
     <script src="/js/carrito.js"></script>
     <script src="/js/producto-detalle.js"></script>
+
     <!-- ✅ SEO DINÁMICO → Actualiza título y descripción según el producto -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {

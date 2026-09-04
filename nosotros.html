@@ -4,25 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nosotros - Maximuebles</title>
-
-
     <!-- MISMAS FUENTES E ICONOS QUE EN EL INDEX -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-
     <!-- TUS ESTILOS: PRINCIPAL + EXCLUSIVO DE LA PÁGINA -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/nosotros.css">
 </head>
 <body>
-
-
     <!-- ==============================================
-                    BARRA SUPERIOR → IGUAL
-             ============================================== -->
+                  BARRA SUPERIOR → IGUAL
+         ============================================== -->
     <section class="topbar">
         <div class="topbar-container">
             <div class="topbar-item">
@@ -40,7 +34,6 @@
         </div>
     </section>
 
-
     <!-- ==============================================
          ENCABEZADO → SIN "MI CUENTA", TUS ICONOS IGUALES
        ============================================== -->
@@ -53,8 +46,6 @@
                         <img src="/assets/logos/logomaxibuebles.png" alt="Maximuebles" class="logo-imagen">
                     </a>
                 </div>
-
-
                 <!-- Buscador → IGUAL -->
                 <div class="header-center">
                     <div class="search-bar">
@@ -64,8 +55,6 @@
                         </button>
                     </div>
                 </div>
-
-
                 <!-- Iconos → SIN "MI CUENTA", TUS BOTONES SE QUEDAN IGUALES -->
                 <div class="header-right">
                     <!-- ✅ QUITAMOS "MI CUENTA / PERFIL" → YA NO EXISTE -->
@@ -73,15 +62,11 @@
                         <i class="fa-solid fa-heart"></i>
                         <span>Favoritos</span>
                     </button>
-
-
                     <!-- ✅ TU CARRITO → SE QUEDA EXACTAMENTE IGUAL -->
                     <a href="/mi-cuenta/carrito.html" class="header-btn cart-btn">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <div class="cart-count" id="headerCartCount">0</div>
                     </a>
-
-
                     <!-- Botón Menú celular → IGUAL -->
                     <div class="menu-celular-boton-solo">
                         <button type="button" class="boton-menu-animado" id="botonMenuAnimado" aria-label="Abrir menú">
@@ -93,21 +78,21 @@
             </div>
         </div>
 
-
         <!-- ==============================================
-                 MENÚ PRINCIPAL → IGUAL, SIN CAMBIOS
+                     MENÚ PRINCIPAL → CORREGIDO
           ============================================== -->
         <nav class="navbar">
             <div class="navbar-container menu-pc">
                 <a href="/index.html" class="nav-item">Inicio</a>
                 <a href="/nosotros.html" class="nav-item active">Nosotros</a>
                 <a href="/pages/living.html" class="nav-item">Living</a>
-                <a href="/pages/dormitorios.html" class="nav-item">Dormitorios</a>
+                <!-- ✅ CORREGIDO: dormitorio.html (SIN la "s") -->
+                <a href="/pages/dormitorio.html" class="nav-item">Dormitorios</a>
                 <a href="/pages/comedor.html" class="nav-item">Comedor</a>
                 <a href="/pages/oficina.html" class="nav-item">Oficina</a>
                 <a href="/pages/ofertas.html" class="nav-item">Ofertas</a>
                 <a href="/contacto.html" class="nav-item">Contacto</a>
-                
+
                 <div class="redes-contenedor">
                     <a href="https://www.facebook.com/maxi.muebles.498598" target="_blank" rel="noopener noreferrer" class="btn-red btn-facebook" aria-label="Facebook">
                         <i class="fa-brands fa-facebook-f"></i>
@@ -120,7 +105,8 @@
                             <i class="fa-brands fa-whatsapp"></i>
                         </a>
                         <div class="lista-wp">
-                            <a href="https://wa.me/5492946516236" target="_blank" rel="noopener noreferrer">MaxiMubles</a>
+                            <!-- ✅ CORREGIDO: nombre "MaxiMuebles" -->
+                            <a href="https://wa.me/5492946516236" target="_blank" rel="noopener noreferrer">MaxiMuebles</a>
                             <a href="https://wa.me/5492984564761" target="_blank" rel="noopener noreferrer">Juan</a>
                             <a href="https://wa.me/5492984311890" target="_blank" rel="noopener noreferrer">Gonzalo</a>
                         </div>
@@ -130,19 +116,15 @@
         </nav>
     </header>
 
-
     <!-- ==============================================
-              CONTENIDO DE NOSOTROS → EXACTAMENTE IGUAL
+              CONTENIDO DE NOSOTROS → EXACTO
        ============================================== -->
     <main class="nosotros-page">
         <div class="nosotros-container">
-
-
             <div class="nosotros-titulo">
                 <h1>Sobre Nosotros</h1>
                 <p class="subtitulo">Conocé la historia detrás de Maximuebles</p>
             </div>
-
 
             <section class="nosotros-seccion">
                 <div class="texto">
@@ -156,7 +138,6 @@
                     <img src="/assets/hero/nosotros.png" alt="Nuestra tienda Maximuebles">
                 </div>
             </section>
-
 
             <section class="nosotros-valores">
                 <div class="valor">
@@ -175,7 +156,6 @@
                     <p>Honestidad, calidad, respeto por el cliente y pasión por lo que hacemos. Cada compra es un voto de confianza que cuidamos al máximo.</p>
                 </div>
             </section>
-
 
             <section class="nosotros-elegir">
                 <h2>¿Por qué elegirnos?</h2>
@@ -202,13 +182,10 @@
                     </div>
                 </div>
             </section>
-
-
         </div>
     </main>
 
-
-    <!-- MISMO PIE DE PÁGINA -->
+    <!-- MISMO PIE DE PÁGINA CORREGIDO -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo-area">
@@ -217,17 +194,16 @@
             </div>
             <div class="footer-links-simples">
                 <a href="/nosotros.html">Nosotros</a>
-                <a href="/preguntas.html">Ayuda</a>
+                <!-- ✅ CORREGIDO: /ayuda.html -->
+                <a href="/ayuda.html">Ayuda</a>
                 <a href="/contacto.html">Contacto</a>
                 <a href="/terminos.html">Términos</a>
             </div>
-
             <div class="footer-bottom">
                 &copy; 2026 Maximuebles. Todos los derechos reservados.
             </div>
         </div>
     </footer>
-
 
     <!-- ✅ SCRIPTS → SIN menu-cuenta.js porque ya no se usa -->
     <script src="/js/api.js"></script>

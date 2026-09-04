@@ -10,11 +10,9 @@ function limpiarTexto(texto) {
 // ✅ Obtener imagen o respaldo si no tiene
 function obtenerImagen(imagenes, nombreProducto) {
     if (!imagenes || imagenes === null || imagenes.trim() === '') {
-        // ✅ Sin imagen → devolvemos null para mostrar el cuadro de color
         return null;
     }
     try {
-        // Si viene como texto JSON → parsear
         const img = Array.isArray(imagenes) ? imagenes[0] : imagenes;
         return img;
     } catch {
@@ -22,39 +20,39 @@ function obtenerImagen(imagenes, nombreProducto) {
     }
 }
 
-// ✅ Cargar producto desde el servidor
+// ✅ Cargar producto desde el servidor — RUTA CORREGIDA
 async function cargarProducto() {
     if (!id) {
         console.error('❌ Falta el ID del producto');
         return;
     }
-    // ✅ CORRECTO: llama SIN /api duplicado
-    const respuesta = await peticion(`/producto?id=${id}`);
-    
+    // ✅ CORREGIDO: ruta que coincide con tu servidor → /productos/:id
+    const respuesta = await peticion(`/productos/${id}`);
+
     if (respuesta.ok && respuesta.datos) {
         productoActual = respuesta.datos;
-        
+
         // ✅ Nombre
         document.getElementById('nombre-producto').textContent = productoActual.nombre || 'Producto';
-        
+
         // ✅ Precio
         document.getElementById('precio-actual').textContent = productoActual.precio
             ? `$ ${Number(productoActual.precio).toLocaleString('es-AR')}`
             : '';
-        
+
         // ✅ Descripción
         document.getElementById('descripcion-larga-texto').textContent = limpiarTexto(productoActual.descripcion);
-        
+
         // ✅ Imagen con respaldo
         const imagenUrl = obtenerImagen(productoActual.imagenes, productoActual.nombre);
         const imgElemento = document.getElementById('img-principal');
-        
+
         if (imagenUrl) {
             imgElemento.src = imagenUrl;
             imgElemento.alt = productoActual.nombre;
             imgElemento.style.display = '';
         } else {
-            // ✅ Sin imagen → cuadro de color local
+            // ✅ Sin imagen → cuadro de color con nombre
             imgElemento.style.display = 'none';
             const contenedorImg = imgElemento.parentElement;
             if (contenedorImg) {
@@ -66,7 +64,7 @@ async function cargarProducto() {
             }
         }
     } else {
-        console.error('❌ No se pudo cargar el producto:', respuesta.mensaje);
+        console.error('❌ No se pudo cargar el producto:', respuesta?.mensaje || 'Error desconocido');
     }
 }
 
@@ -91,27 +89,25 @@ document.getElementById('btn-agregar').addEventListener('click', async () => {
     }
     const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
     const imagenUrl = obtenerImagen(productoActual.imagenes, productoActual.nombre);
-    
+
     // ✅ Pasa el OBJETO COMPLETO como espera carrito.js
     const producto = {
         id: productoActual.id || id,
         nombre: productoActual.nombre || 'Producto',
         precio: parseFloat(productoActual.precio) || 0,
-        imagen: imagenUrl || '',
+        imagenes: imagenUrl || '',
         cantidad: cantidad
     };
 
     if (typeof agregarAlCarrito === 'function') {
-        const ok = await agregarAlCarrito(producto);
-        if (ok) {
-            const btn = document.getElementById('btn-agregar');
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Agregado!';
-            btn.style.background = '#1a8a36';
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
-                btn.style.background = '';
-            }, 1800);
-        }
+        agregarAlCarrito(producto);
+        const btn = document.getElementById('btn-agregar');
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Agregado!';
+        btn.style.background = '#1a8a36';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
+            btn.style.background = '';
+        }, 1800);
     }
 });
 
@@ -123,16 +119,16 @@ document.getElementById('btn-comprar-ahora').addEventListener('click', () => {
     }
     const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
     const imagenUrl = obtenerImagen(productoActual.imagenes, productoActual.nombre);
-    
+
     // ✅ Guardar SOLO este producto como carrito temporal
     const compraDirecta = [{
         id: productoActual.id || id,
         nombre: productoActual.nombre || 'Producto',
         precio: parseFloat(productoActual.precio) || 0,
-        imagen: imagenUrl || '',
+        imagenes: imagenUrl || '',
         cantidad: cantidad
     }];
-    
+
     // ✅ Reemplazar el carrito actual y salir al checkout
     localStorage.setItem('carrito', JSON.stringify(compraDirecta));
     window.location.href = '/checkout.html';

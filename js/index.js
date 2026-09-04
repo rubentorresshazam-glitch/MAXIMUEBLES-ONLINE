@@ -16,7 +16,7 @@ async function cargarOfertas() {
     // Mostrar mensaje de carga
     grilla.innerHTML = `<p class="mensaje-cargando">Cargando ofertas...</p>`;
 
-    // ✅ Pide TODOS los productos y filtra acá (igual que las otras páginas)
+    // ✅ Pide TODOS los productos
     const respuesta = await peticion('/productos');
     if (!respuesta.ok || !respuesta.datos) {
       grilla.innerHTML = `
@@ -49,9 +49,10 @@ async function cargarOfertas() {
     // ✅ ASOCIAR BOTONES AL CARRITO
     document.querySelectorAll('.agregar-carrito').forEach(btn => {
       btn.addEventListener('click', async (e) => {
-        const id = Number(e.target.closest('.agregar-carrito').dataset.id);
-        const nombre = e.target.closest('.agregar-carrito').dataset.nombre;
-        const precio = Number(e.target.closest('.agregar-carrito').dataset.precio);
+        const boton = e.target.closest('.agregar-carrito');
+        const id = Number(boton.dataset.id);
+        const nombre = boton.dataset.nombre;
+        const precio = Number(boton.dataset.precio);
 
         const producto = {
           id: id,
@@ -61,29 +62,29 @@ async function cargarOfertas() {
         };
 
         if (typeof agregarAlCarrito === 'function') {
-          const ok = await agregarAlCarrito(producto);
-          if (ok) {
-            e.target.closest('.agregar-carrito').innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
-            e.target.closest('.agregar-carrito').style.background = '#28a745';
-            setTimeout(() => {
-              e.target.closest('.agregar-carrito').innerHTML = `<i class="fa-solid fa-cart-plus"></i> Agregar`;
-              e.target.closest('.agregar-carrito').style.background = '';
-            }, 2000);
-          }
+          agregarAlCarrito(producto);
+          boton.innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
+          boton.style.background = '#28a745';
+          setTimeout(() => {
+            boton.innerHTML = `<i class="fa-solid fa-cart-plus"></i> Agregar`;
+            boton.style.background = '';
+          }, 2000);
         }
       });
     });
 
     console.log(`✅ ${ofertas.length} ofertas cargadas`);
-
   } catch (error) {
     console.error('❌ Error cargando ofertas:', error);
-    document.getElementById('ofertas-grid').innerHTML = `
-      <p class="mensaje-error">No se pudieron cargar las ofertas. Intenta más tarde.</p>`;
+    const grilla = document.getElementById('ofertas-grid');
+    if (grilla) {
+      grilla.innerHTML = `
+        <p class="mensaje-error">No se pudieron cargar las ofertas. Intenta más tarde.</p>`;
+    }
   }
 }
 
-// ✅ FORMATO DE TARJETA — ENLACE CORRECTO + DATOS PARA CARRITO
+// ✅ FORMATO DE TARJETA — ENLACE CORREGIDO
 function crearTarjetaProducto(producto) {
   const precio = Number(producto.precio).toLocaleString('es-AR');
   const imagen = producto.imagenes 
@@ -94,7 +95,7 @@ function crearTarjetaProducto(producto) {
     <article class="product-card">
       <div class="product-badge oferta"><span>¡OFERTA!</span></div>
       <div class="product-img-container">
-        <a href="/producto-detalles.html?id=${producto.id}">
+        <a href="/producto-detalle.html?id=${producto.id}">
           <img src="${imagen}" alt="${producto.nombre}" class="product-image" loading="lazy">
         </a>
       </div>
@@ -110,7 +111,7 @@ function crearTarjetaProducto(producto) {
                   data-precio="${producto.precio}">
             <i class="fa-solid fa-cart-plus"></i> Agregar
           </button>
-          <a href="/producto-detalles.html?id=${producto.id}" class="product-btn ver-detalle">
+          <a href="/producto-detalle.html?id=${producto.id}" class="product-btn ver-detalle">
             <i class="fa-solid fa-eye"></i> Ver
           </a>
         </div>
