@@ -3,10 +3,21 @@ let totalCompra = 0;
 let carrito = [];
 const CLAVE_PUBLICA_MP = "APP_USR-8dbfc25a-2ce6-4d62-a5d3-6b72841f1a46";
 
+// ✅ GENERAR CÓDIGO ÚNICO POR CLIENTE → NADIE se cruza con nadie
+function obtenerSesionId() {
+  let sesion_id = localStorage.getItem("sesion_id");
+  if (!sesion_id) {
+    sesion_id = Date.now().toString() + Math.random().toString(36).substring(2);
+    localStorage.setItem("sesion_id", sesion_id);
+  }
+  return sesion_id;
+}
+
 window.addEventListener("load", async () => {
   if (window.MercadoPago) {
     mp = new MercadoPago(CLAVE_PUBLICA_MP, { locale: "es-AR" });
   }
+  obtenerSesionId(); // ✅ Aseguramos que exista el identificador
   cambiarPantalla("paso-envio");
   await cargarResumenCarrito();
 });
@@ -70,7 +81,7 @@ function cargarResumenFinal() {
   document.getElementById("res_metodo_pago").textContent = "Pagar con Mercado Pago";
 }
 
-// ✅ PROCESAR PAGO — GUARDA PEDIDO Y GENERA ENLACE
+// ✅ PROCESAR PAGO — CORREGIDO ✅ CON sesion_id ✅
 async function procesarPago() {
   const nombre = document.getElementById("nombre").value.trim();
   const dni = document.getElementById("dni").value.trim();
@@ -95,6 +106,8 @@ async function procesarPago() {
     precio: item.precio
   }));
 
+  const sesion_id = obtenerSesionId(); // ✅ ID ÚNICO DEL CLIENTE
+
   const datosCompra = {
     nombre,
     correo: document.getElementById("correo")?.value?.trim() || "cliente@maximuebles.com.ar",
@@ -102,6 +115,7 @@ async function procesarPago() {
     direccion: direccionCompleta,
     productos: productosParaEnviar,
     total: totalCompra,
+    sesion_id: sesion_id, // ✅ ESTO ERA LO QUE FALTABA ❗
     notas: `DNI: ${dni} | Recibe: ${document.getElementById("recibe")?.value || nombre} | Horario: ${document.getElementById("horario")?.value || "A convenir"}`
   };
 
@@ -122,11 +136,13 @@ async function procesarPago() {
     const respPago = await peticion("/crear-preferencia-pago", "POST", {
       productos: carrito,
       total: totalCompra,
+      sesion_id: sesion_id, // ✅ TAMBIÉN LO MANDAMOS ACÁ
       datosComprador: {
         nombre,
         correo: datosCompra.correo
       }
     });
+
     console.log("💳 Respuesta Mercado Pago:", respPago);
 
     if (respPago.ok && respPago.datos && respPago.datos.init_point) {
